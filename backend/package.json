@@ -1,0 +1,28 @@
+{
+  "name": "gitrank_api",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "gitRank",
+    "gitrank_api",
+    "github_api"
+  ],
+  "license": "ISC",
+  "author": "akash goud sidduluri",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "axios": "^1.17.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mysql2": "^3.22.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
