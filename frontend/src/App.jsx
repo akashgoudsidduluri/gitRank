@@ -211,7 +211,11 @@ function App() {
             <div className="glass-panel profile-header-card">
               <div className="user-info-group">
                 <div className="user-avatar-wrapper">
-                  <img src={profile.avatar} alt={profile.username} className="user-avatar" />
+                  <a href={`https://github.com/${profile.username}`} 
+                    target="_blank"
+                    rel="noopener noreferrer">
+                      <img src={profile.avatar} alt={profile.username} className="user-avatar" />
+                  </a>
                 </div>
                 <div className="user-meta-details">
                   <h2 className="user-username">
