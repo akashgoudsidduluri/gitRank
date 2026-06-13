@@ -1,0 +1,36 @@
+
+.container {
+  width: 500px;
+  margin: 100px auto;
+  text-align: center;
+  background-color:white;
+  padding:10px;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  color:grey
+}
+
+button {
+  padding: 12px 20px;
+  cursor: pointer;
+  color: rgb(220, 28, 220);
+  font-weight: bold;
+}
+
+.profile-report{
+  width : 100%;
+  margin-top:30px;
+  border-radius: 10%;
+  padding:10px;
+  border-color: cornflowerblue;
+  color:darkslategray;
+  background-color: rgb(143, 180, 168);
+}
