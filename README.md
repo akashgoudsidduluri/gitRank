@@ -1,8 +1,8 @@
 # GitRank
 
-GitRank is a GitHub profile analysis platform that evaluates developers using public GitHub data and generates a custom DevScore.
+GitRank is a GitHub profile analysis platform that evaluates GitHub profiles using public GitHub data and generates a custom GitRank Score.
 
-The goal is to move beyond raw GitHub statistics and provide meaningful insights into a developer's profile, repository impact, and overall GitHub presence.
+The goal is to move beyond raw GitHub statistics and provide meaningful insights into a developer's GitHub presence, repository impact, and open-source footprint.
 
 ---
 
@@ -20,15 +20,15 @@ GET /api/analyze/torvalds
 
 Returns:
 
-- Followers
-- Following
-- Public repositories
-- Total stars
-- Average stars per repository
-- Account age
-- Most starred repository
-- DevScore
-- Developer tier
+* Followers
+* Following
+* Public repositories
+* Total stars
+* Average stars per repository
+* Account age
+* Most starred repository
+* GitRank Score
+* Profile Tier
 
 ---
 
@@ -36,50 +36,58 @@ Returns:
 
 GitRank currently evaluates:
 
-- Followers
-- Public repositories
-- Total repository stars
-- Average stars per repository
-- Account age
-- Highest starred repository
+* Followers
+* Public repositories
+* Total repository stars
+* Average stars per repository
+* Account age
+* Highest starred repository
 
 ---
 
-## DevScore
+## GitRank Score
 
-GitRank calculates a custom DevScore using:
+GitRank calculates a custom score using:
 
-- GitHub Followers
-- Repository Stars
-- Repository Count
-- Account Age
+* GitHub Followers
+* Repository Stars
+* Repository Count
+* Account Age
 
-Developer Tiers:
+Profile Tiers:
 
-| Score | Tier |
-|---------|---------|
-| 0-19 | Beginner |
-| 20-39 | Explorer |
-| 40-59 | Builder |
-| 60-79 | Advanced |
-| 80-100 | Legend |
+| Score  | Tier     |
+| ------ | -------- |
+| 0-19   | Beginner |
+| 20-39  | Explorer |
+| 40-59  | Builder  |
+| 60-79  | Advanced |
+| 80-100 | Legend   |
+
+> Note: GitRank Score measures GitHub presence and repository impact, not overall software engineering skill.
 
 ---
 
 ## Tech Stack
 
+### Frontend
+
+* React
+* Axios
+
 ### Backend
 
-- Node.js
-- Express.js
-- Axios
-- Dotenv
+* Node.js
+* Express.js
+* Axios
+* Dotenv
+* CORS
 
-### Planned
+### Future
 
-- MySQL
-- React
-- Redis Cache (Optional)
+* SQLite / MySQL
+* Caching Layer
+* AI Profile Analysis
 
 ---
 
@@ -105,6 +113,10 @@ gitRank/
 │   └── package.json
 │
 ├── frontend/
+│   │
+│   ├── src/
+│   ├── public/
+│   └── package.json
 │
 └── README.md
 ```
@@ -113,25 +125,23 @@ gitRank/
 
 ## Installation
 
-Clone the repository:
+### Clone Repository
 
 ```bash
 git clone https://github.com/akashgoudsidduluri/gitRank.git
 ```
 
-Move into backend:
+---
+
+### Backend Setup
 
 ```bash
 cd gitRank/backend
-```
 
-Install dependencies:
-
-```bash
 npm install
 ```
 
-Create a .env file:
+Create a `.env` file:
 
 ```env
 PORT=5000
@@ -147,6 +157,30 @@ Run production server:
 
 ```bash
 npm start
+```
+
+Backend runs at:
+
+```text
+http://localhost:5000
+```
+
+---
+
+### Frontend Setup
+
+```bash
+cd ../frontend
+
+npm install
+
+npm run dev
+```
+
+Frontend runs at:
+
+```text
+http://localhost:5173
 ```
 
 ---
@@ -172,10 +206,10 @@ GET /api/analyze/torvalds
 ```json
 {
   "username": "torvalds",
-  "followers": 250000,
+  "followers": 307000,
   "following": 0,
   "publicRepos": 8,
-  "accountAgeYears": 14.2,
+  "accountAgeYears": 14.8,
   "totalStars": 210000,
   "averageStarsPerRepo": 26250,
   "topRepo": "linux",
@@ -188,41 +222,50 @@ GET /api/analyze/torvalds
 
 ---
 
+## Screenshots
+
+Coming Soon
+
+---
+
 ## Roadmap
 
 ### Phase 1 (Completed)
 
-- [x] GitHub Profile API Integration
-- [x] Repository Analysis
-- [x] DevScore Calculation
-- [x] Modular Backend Architecture
+* [x] GitHub Profile API Integration
+* [x] Repository Analysis
+* [x] GitRank Score Calculation
+* [x] Modular Backend Architecture
+* [x] React Frontend
+* [x] Live Profile Search
+* [x] Full-Stack Integration
 
 ### Phase 2
 
-- [ ] MySQL Integration
-- [ ] Store Analyzed Profiles
-- [ ] 24 Hour Analysis Cache
-- [ ] Leaderboard APIs
+* [ ] Improved Profile Analysis
+* [ ] Better UI Components
+* [ ] Developer Insights
+* [ ] Language Analysis
 
 ### Phase 3
 
-- [ ] React Frontend
-- [ ] Global Developer Rankings
-- [ ] Search History
-- [ ] Modern Dashboard UI
+* [ ] Analysis Cache
+* [ ] SQLite / MySQL Integration
+* [ ] Global Leaderboards
+* [ ] Search History
 
 ### Phase 4
 
-- [ ] AI Profile Review
-- [ ] Resume Insights
-- [ ] Career Recommendations
-- [ ] Repository Quality Analysis
+* [ ] AI Profile Review
+* [ ] Repository Quality Analysis
+* [ ] Open Source Contribution Insights
+* [ ] Career Recommendations
 
 ---
 
 ## Future Vision
 
-GitRank aims to become a developer ranking and analysis platform that provides deeper insights than GitHub's default profile statistics.
+GitRank aims to become a GitHub profile analysis platform that helps developers understand their GitHub presence, repository impact, and overall open-source footprint.
 
 ---
 

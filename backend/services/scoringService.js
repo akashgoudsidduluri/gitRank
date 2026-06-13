@@ -10,14 +10,8 @@ function calculateDevScore({
     score += Math.min(publicRepos, 100) / 100 * 20;
     score += Math.min(accountAgeYears, 10) / 10 * 10;
     score= Math.round(score);
-    let tier = "Beginner";
-    if(score >= 80) tier = "Legend";
-    else if(score >= 60) tier = "Advanced";
-    else if(score >= 40) tier = "Builder";
-    else if(score >= 20) tier = "Explorer";
     return {
-        score,
-        tier
+        score
     };
 }
 
