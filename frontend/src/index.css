@@ -866,3 +866,49 @@ body {
     transform: translateY(105vh) translateX(30px) rotate(12deg);
   }
 }
+
+.dashboard-tabs{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:24px;
+}
+
+.tab-btn{
+  padding:12px 20px;
+  border-radius:14px;
+  border:1px solid var(--card-border);
+  background:var(--card-bg);
+  color:var(--text-primary);
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+  backdrop-filter:blur(20px);
+  transition:all .25s ease;
+}
+
+.tab-btn:hover{
+  transform:translateY(-2px);
+  border-color:var(--accent-primary);
+  box-shadow:0 0 15px rgba(96,165,250,.25);
+}
+
+.active-tab{
+  background:linear-gradient(
+    135deg,
+    var(--accent-primary),
+    var(--accent-secondary)
+  );
+  color:white;
+  border:none;
+}
+
+.disabled-tab{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+.disabled-tab:hover{
+  transform:none;
+  box-shadow:none;
+}

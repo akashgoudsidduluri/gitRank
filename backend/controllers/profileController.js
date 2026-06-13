@@ -1,6 +1,7 @@
 const {getUserProfile,getUserRepos} =require("../services/githubService.js");
 const {calculateDevScore} =require("../services/scoringService.js");
 const {analyzeDeveloper} =require("../services/AnalysisService");
+const {generateRepoInsights} =require("../services/repoInsightsService.js");
 async function analyzeProfile(req,res) {
     try{
         const username=req.params.username;
@@ -40,6 +41,9 @@ async function analyzeProfile(req,res) {
             totalStars,
             accountAgeYears
         });
+
+        //Get Repo Insigts
+        const repoInsights = generateRepoInsights(repos);
         res.json({
             username: profile.login,
             followers: profile.followers,
@@ -56,7 +60,8 @@ async function analyzeProfile(req,res) {
             archetype: analysis.archetype,
             strengths: analysis.strengths,
             weaknesses: analysis.weaknesses,
-            recommendations: analysis.recommendations
+            recommendations: analysis.recommendations,
+            repoInsights
         })
     }catch(error){
         res.status(404).json({

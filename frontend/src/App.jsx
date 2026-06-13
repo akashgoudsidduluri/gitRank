@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from "axios";
+import RepoInsightsTab from "./components/RepoInsightsTab";
 import { 
   FaGithub, 
   FaSearch, 
@@ -18,6 +19,7 @@ import {
   FaLightbulb, 
   FaArrowLeft 
 } from "react-icons/fa";
+
 
 const WeatherEffect = ({ theme }) => {
   const [elements, setElements] = useState([]);
@@ -97,7 +99,7 @@ function App() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  
+  const [activeTab, setActiveTab] = useState("overview");
   // Theme setting initialization
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem('gitrank-theme');
@@ -139,6 +141,7 @@ function App() {
     setProfile(null);
     setUsername("");
     setError(null);
+    setActiveTab("overview");
   };
 
   return (
@@ -207,182 +210,220 @@ function App() {
               </button>
             </div>
 
-            {/* Profile Header Glass Card */}
-            <div className="glass-panel profile-header-card">
-              <div className="user-info-group">
-                <div className="user-avatar-wrapper">
-                  <a href={`https://github.com/${profile.username}`} 
-                    target="_blank"
-                    rel="noopener noreferrer">
-                      <img src={profile.avatar} alt={profile.username} className="user-avatar" />
-                  </a>
-                </div>
-                <div className="user-meta-details">
-                  <h2 className="user-username">
-                    {profile.username}
-                    {profile.archetype && (
-                      <span className="archetype-badge">{profile.archetype}</span>
-                    )}
-                  </h2>
-                  <div className="user-subtext">
-                    <FaCalendarAlt /> Member for {profile.accountAgeYears} {profile.accountAgeYears === 1 ? 'year' : 'years'}
+            <div className="dashboard-tabs">
+              <button
+                className={activeTab === "overview" ? "tab-btn active-tab" : "tab-btn"}
+                onClick={() => setActiveTab("overview")}
+              >
+                Overview
+              </button>
+
+              <button
+                className={activeTab === "repoInsights" ? "tab-btn active-tab" : "tab-btn"}
+                onClick={() => setActiveTab("repoInsights")}
+              >
+                Repository Insights
+              </button>
+
+              <button className="tab-btn disabled-tab">
+                Contributions
+              </button>
+
+              <button className="tab-btn disabled-tab">
+                Compare Users
+              </button>
+
+              <button className="tab-btn disabled-tab">
+                Leaderboard
+              </button>
+            </div>
+
+            {activeTab === "overview" && (
+              <>
+                {/* Profile Header Glass Card */}
+                <div className="glass-panel profile-header-card">
+                  <div className="user-info-group">
+                    <div className="user-avatar-wrapper">
+                      <a href={`https://github.com/${profile.username}`} 
+                        target="_blank"
+                        rel="noopener noreferrer">
+                          <img src={profile.avatar} alt={profile.username} className="user-avatar" />
+                      </a>
+                    </div>
+                    <div className="user-meta-details">
+                      <h2 className="user-username">
+                        {profile.username}
+                        {profile.archetype && (
+                          <span className="archetype-badge">{profile.archetype}</span>
+                        )}
+                      </h2>
+                      <div className="user-subtext">
+                        <FaCalendarAlt /> Member for {profile.accountAgeYears} {profile.accountAgeYears === 1 ? 'year' : 'years'}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="score-badge-container">
+                    <div className="score-text-block">
+                      <div className="score-label">Dev Score</div>
+                      <div className="score-value">{profile.devScore}/100</div>
+                    </div>
+                    <div className="score-gauge-ring">
+                      <FaTrophy size={28} className="logo-icon" style={{
+                        color: profile.devScore >= 75 ? 'var(--strength-color)' : (profile.devScore >= 45 ? 'var(--weakness-color)' : 'var(--text-muted)')
+                      }} />
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="score-badge-container">
-                <div className="score-text-block">
-                  <div className="score-label">Dev Score</div>
-                  <div className="score-value">{profile.devScore}/100</div>
-                </div>
-                <div className="score-gauge-ring">
-                  <FaTrophy size={28} className="logo-icon" style={{
-                    color: profile.devScore >= 75 ? 'var(--strength-color)' : (profile.devScore >= 45 ? 'var(--weakness-color)' : 'var(--text-muted)')
-                  }} />
-                </div>
-              </div>
-            </div>
+                {/* Stats Grid */}
+                <div className="stats-grid">
+                  <div className="stat-card">
+                    <div className="stat-icon-wrapper">
+                      <FaStar />
+                    </div>
+                    <div className="stat-info">
+                      <div className="stat-label">Total Stars</div>
+                      <div className="stat-value">{profile.totalStars}</div>
+                    </div>
+                  </div>
 
-            {/* Stats Grid */}
-            <div className="stats-grid">
-              <div className="stat-card">
-                <div className="stat-icon-wrapper">
-                  <FaStar />
-                </div>
-                <div className="stat-info">
-                  <div className="stat-label">Total Stars</div>
-                  <div className="stat-value">{profile.totalStars}</div>
-                </div>
-              </div>
+                  <div className="stat-card">
+                    <div className="stat-icon-wrapper">
+                      <FaUsers />
+                    </div>
+                    <div className="stat-info">
+                      <div className="stat-label">Followers</div>
+                      <div className="stat-value">{profile.followers}</div>
+                    </div>
+                  </div>
 
-              <div className="stat-card">
-                <div className="stat-icon-wrapper">
-                  <FaUsers />
-                </div>
-                <div className="stat-info">
-                  <div className="stat-label">Followers</div>
-                  <div className="stat-value">{profile.followers}</div>
-                </div>
-              </div>
+                  <div className="stat-card">
+                    <div className="stat-icon-wrapper">
+                      <FaUserFriends />
+                    </div>
+                    <div className="stat-info">
+                      <div className="stat-label">Following</div>
+                      <div className="stat-value">{profile.following}</div>
+                    </div>
+                  </div>
 
-              <div className="stat-card">
-                <div className="stat-icon-wrapper">
-                  <FaUserFriends />
-                </div>
-                <div className="stat-info">
-                  <div className="stat-label">Following</div>
-                  <div className="stat-value">{profile.following}</div>
-                </div>
-              </div>
+                  <div className="stat-card">
+                    <div className="stat-icon-wrapper">
+                      <FaCodeBranch />
+                    </div>
+                    <div className="stat-info">
+                      <div className="stat-label">Public Repos</div>
+                      <div className="stat-value">{profile.publicRepos}</div>
+                    </div>
+                  </div>
 
-              <div className="stat-card">
-                <div className="stat-icon-wrapper">
-                  <FaCodeBranch />
-                </div>
-                <div className="stat-info">
-                  <div className="stat-label">Public Repos</div>
-                  <div className="stat-value">{profile.publicRepos}</div>
-                </div>
-              </div>
+                  <div className="stat-card">
+                    <div className="stat-icon-wrapper">
+                      <FaChartLine />
+                    </div>
+                    <div className="stat-info">
+                      <div className="stat-label">Avg Stars / Repo</div>
+                      <div className="stat-value">{profile.averageStarsPerRepo}</div>
+                    </div>
+                  </div>
 
-              <div className="stat-card">
-                <div className="stat-icon-wrapper">
-                  <FaChartLine />
+                  <div className="stat-card">
+                    <div className="stat-icon-wrapper">
+                      <FaCalendarAlt />
+                    </div>
+                    <div className="stat-info">
+                      <div className="stat-label">Account Age</div>
+                      <div className="stat-value">{profile.accountAgeYears} Years</div>
+                    </div>
+                  </div>
                 </div>
-                <div className="stat-info">
-                  <div className="stat-label">Avg Stars / Repo</div>
-                  <div className="stat-value">{profile.averageStarsPerRepo}</div>
-                </div>
-              </div>
 
-              <div className="stat-card">
-                <div className="stat-icon-wrapper">
-                  <FaCalendarAlt />
-                </div>
-                <div className="stat-info">
-                  <div className="stat-label">Account Age</div>
-                  <div className="stat-value">{profile.accountAgeYears} Years</div>
-                </div>
-              </div>
-            </div>
+                {/* Spotlight Top Repo */}
+                {profile.topRepo && (
+                  <div className="glass-panel spotlight-repo-card">
+                    <div className="spotlight-title-group">
+                      <span className="spotlight-badge">Top Project Spotlight</span>
+                      <span className="repo-stars-count">
+                        <FaStar className="repo-star-icon" /> {profile.topRepoStars} Stars
+                      </span>
+                    </div>
+                    <a href={profile.topRepoUrl || "#"} target="_blank" rel="noopener noreferrer" className="repo-link-element">
+                      {profile.topRepo} <FaExternalLinkAlt size={14} />
+                    </a>
+                    <p style={{ marginTop: '10px', color: 'var(--text-secondary)', fontSize: '14px' }}>
+                      This repository has generated the highest level of community stars and serves as a core highlight.
+                    </p>
+                  </div>
+                )}
 
-            {/* Spotlight Top Repo */}
-            {profile.topRepo && (
-              <div className="glass-panel spotlight-repo-card">
-                <div className="spotlight-title-group">
-                  <span className="spotlight-badge">Top Project Spotlight</span>
-                  <span className="repo-stars-count">
-                    <FaStar className="repo-star-icon" /> {profile.topRepoStars} Stars
-                  </span>
+                {/* Insights Section */}
+                <div className="insights-container">
+                  {/* Strengths */}
+                  <div className="insights-box">
+                    <h3 className="insights-box-title strengths-title">
+                      <FaCheckCircle className="icon-strength" /> Profile Strengths
+                    </h3>
+                    <ul className="insights-list">
+                      {profile.strengths && profile.strengths.length > 0 ? (
+                        profile.strengths.map((item, idx) => (
+                          <li key={idx} className="insights-item insights-item-strength">
+                            <FaCheckCircle className="insights-item-icon icon-strength" />
+                            <span>{item}</span>
+                          </li>
+                        ))
+                      ) : (
+                        <li style={{ color: 'var(--text-muted)', fontSize: '14px' }}>No specific strengths highlighted yet.</li>
+                      )}
+                    </ul>
+                  </div>
+
+                  {/* Weaknesses */}
+                  <div className="insights-box">
+                    <h3 className="insights-box-title weaknesses-title">
+                      <FaExclamationCircle className="icon-weakness" /> Profile Weaknesses
+                    </h3>
+                    <ul className="insights-list">
+                      {profile.weaknesses && profile.weaknesses.length > 0 ? (
+                        profile.weaknesses.map((item, idx) => (
+                          <li key={idx} className="insights-item insights-item-weakness">
+                            <FaExclamationCircle className="insights-item-icon icon-weakness" />
+                            <span>{item}</span>
+                          </li>
+                        ))
+                      ) : (
+                        <li style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Excellent profile! No critical weaknesses found.</li>
+                      )}
+                    </ul>
+                  </div>
+
+                  {/* Recommendations */}
+                  <div className="insights-box" style={{ gridColumn: '1 / -1' }}>
+                    <h3 className="insights-box-title recommendations-title">
+                      <FaLightbulb className="icon-recommendation" /> Actionable Recommendations
+                    </h3>
+                    <ul className="insights-list">
+                      {profile.recommendations && profile.recommendations.length > 0 ? (
+                        profile.recommendations.map((item, idx) => (
+                          <li key={idx} className="insights-item insights-item-recommendation">
+                            <FaLightbulb className="insights-item-icon icon-recommendation" />
+                            <span>{item}</span>
+                          </li>
+                        ))
+                      ) : (
+                        <li style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Keep maintaining this great profile!</li>
+                      )}
+                    </ul>
+                  </div>
                 </div>
-                <a href={profile.topRepoUrl || "#"} target="_blank" rel="noopener noreferrer" className="repo-link-element">
-                  {profile.topRepo} <FaExternalLinkAlt size={14} />
-                </a>
-                <p style={{ marginTop: '10px', color: 'var(--text-secondary)', fontSize: '14px' }}>
-                  This repository has generated the highest level of community stars and serves as a core highlight.
-                </p>
-              </div>
+              </>
             )}
 
-            {/* Insights Section */}
-            <div className="insights-container">
-              {/* Strengths */}
-              <div className="insights-box">
-                <h3 className="insights-box-title strengths-title">
-                  <FaCheckCircle className="icon-strength" /> Profile Strengths
-                </h3>
-                <ul className="insights-list">
-                  {profile.strengths && profile.strengths.length > 0 ? (
-                    profile.strengths.map((item, idx) => (
-                      <li key={idx} className="insights-item insights-item-strength">
-                        <FaCheckCircle className="insights-item-icon icon-strength" />
-                        <span>{item}</span>
-                      </li>
-                    ))
-                  ) : (
-                    <li style={{ color: 'var(--text-muted)', fontSize: '14px' }}>No specific strengths highlighted yet.</li>
-                  )}
-                </ul>
-              </div>
-
-              {/* Weaknesses */}
-              <div className="insights-box">
-                <h3 className="insights-box-title weaknesses-title">
-                  <FaExclamationCircle className="icon-weakness" /> Profile Weaknesses
-                </h3>
-                <ul className="insights-list">
-                  {profile.weaknesses && profile.weaknesses.length > 0 ? (
-                    profile.weaknesses.map((item, idx) => (
-                      <li key={idx} className="insights-item insights-item-weakness">
-                        <FaExclamationCircle className="insights-item-icon icon-weakness" />
-                        <span>{item}</span>
-                      </li>
-                    ))
-                  ) : (
-                    <li style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Excellent profile! No critical weaknesses found.</li>
-                  )}
-                </ul>
-              </div>
-
-              {/* Recommendations */}
-              <div className="insights-box" style={{ gridColumn: '1 / -1' }}>
-                <h3 className="insights-box-title recommendations-title">
-                  <FaLightbulb className="icon-recommendation" /> Actionable Recommendations
-                </h3>
-                <ul className="insights-list">
-                  {profile.recommendations && profile.recommendations.length > 0 ? (
-                    profile.recommendations.map((item, idx) => (
-                      <li key={idx} className="insights-item insights-item-recommendation">
-                        <FaLightbulb className="insights-item-icon icon-recommendation" />
-                        <span>{item}</span>
-                      </li>
-                    ))
-                  ) : (
-                    <li style={{ color: 'var(--text-muted)', fontSize: '14px' }}>Keep maintaining this great profile!</li>
-                  )}
-                </ul>
-              </div>
-            </div>
+            {activeTab === "repoInsights" && (
+              <RepoInsightsTab
+                repoInsights={profile.repoInsights}
+              />
+            )}
           </div>
         )}
 
