@@ -52,6 +52,17 @@ GitRank provides:
 * GitRank Score
 * Developer Archetype
 
+### Contribution Analytics
+
+• Real GitHub Contribution Heatmap
+• Contribution Breakdown Charts
+• Current & Longest Contribution Streaks
+• Peak Contribution Day
+• Monthly Activity Trends
+• Active Days Analysis
+• Contribution Statistics
+• GitRank Tier Classification
+
 ### Repository Insights
 
 GitRank provides deeper repository-level analytics:
@@ -74,6 +85,24 @@ A dedicated space to browse through the user's codebase:
 * **Dynamic Sorting**: Sort by stars, forks, age, or alphabetical order.
 * **On-Demand Contributors**: Fetch the top 3 contributors for any repository with a single click.
 * **Responsive Grid**: Glassmorphic cards that adapt to all screen sizes.
+
+### Achievements & Badges
+
+GitRank rewards activity through unlockable achievements and reputation badges.
+
+Achievements:
+• Commit Crusader
+• PR Pioneer
+• Issue Hunter
+• Code Reviewer
+• Repo Builder
+• Star Magnet
+• Open Source Veteran
+
+Badges:
+• GitRank Explorer
+• Open Source Explorer
+• Maintainer Material
 
 ### Smart Developer Analysis
 
@@ -106,6 +135,7 @@ Current Tabs:
 * Overview
 * Repository Insights
 * Repository Explorer
+* Contributions
 
 Upcoming Tabs:
 
@@ -121,10 +151,11 @@ Upcoming Tabs:
 
 GitRank calculates a custom developer score using:
 
-* Followers
-* Public Repositories
-* Total Repository Stars
-* Account Age
+• Contribution Activity
+• Repository Impact (Stars)
+• Community Reach (Followers)
+• Repository Portfolio
+• Account Age
 
 ### Score Tiers
 
@@ -155,6 +186,20 @@ GitRank currently evaluates:
 * Most Starred Repository
 * GitRank Score
 * Developer Archetype
+
+### Contribution Metrics
+
+• Total Contributions
+• Commit Contributions
+• Pull Request Contributions
+• Issue Contributions
+• Code Reviews
+• Contribution Heatmap
+• Current Streak
+• Longest Streak
+• Peak Contribution Day
+• Active Days
+• Monthly Contribution Trends
 
 ### Repository Insights
 

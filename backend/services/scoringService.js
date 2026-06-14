@@ -28,7 +28,16 @@ function calculateDevScore({
         ageScore
     );
 
-    return { score };
+    return { 
+        score,
+        breakdown: {
+            contributions: Math.round(contributionScore),
+            stars: Math.round(starScore),
+            followers: Math.round(followerScore),
+            repositories: Math.round(repoScore),
+            age: Math.round(ageScore)
+        }
+    };
 }
 module.exports = {
     calculateDevScore

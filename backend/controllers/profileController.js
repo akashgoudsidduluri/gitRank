@@ -13,6 +13,8 @@ const {generateRepoInsights} =require("../services/repoInsightsService.js");
 const {
     generateRepositoryExplorer
 } = require("../services/repositoryExplorerService");
+const { generateAchievements } = require("../services/achievementService");
+const { generateBadges } = require("../services/badgeService");
 
 async function analyzeProfile(req,res) {
     try{
@@ -33,7 +35,6 @@ async function analyzeProfile(req,res) {
             getContributionAnalytics(username)
         ]);
 
-        console.log(`[GraphQL Debug] totalContributions for ${username}:`, contributionAnalytics.contributionCalendar.totalContributions);
         //User Repos Analysis
 
         let topRepo=null;
@@ -84,7 +85,8 @@ async function analyzeProfile(req,res) {
             heatmap:
                 contributionAnalytics.contributionCalendar.weeks
         };
-        let { score: devScore } = calculateDevScore({
+
+        let { score: devScore, breakdown: devScoreBreakdown } = calculateDevScore({
             followers: profile.followers,
             totalStars,
             publicRepos: profile.public_repos,
@@ -92,6 +94,52 @@ async function analyzeProfile(req,res) {
             totalContributions:
                 contributionSummary.totalContributions
         });
+
+        const achievements = generateAchievements({
+            totalCommitContributions:
+            contributionSummary.totalCommitContributions,
+
+            totalPullRequestContributions:
+            contributionSummary.totalPullRequestContributions,
+
+            totalIssueContributions:
+            contributionSummary.totalIssueContributions,
+
+            totalReviewContributions:
+            contributionSummary.totalReviewContributions,
+
+            publicRepos: profile.public_repos,
+            totalStars,
+            accountAgeYears
+        });
+
+        const badges = generateBadges({
+            score: devScore,
+            totalContributions:
+            contributionSummary.totalContributions,
+            totalStars,
+            publicRepos: profile.public_repos
+        });
+
+        // Profile Completion Check
+        const profileCompletion = Math.round(
+            ([
+                profile.bio,
+                profile.avatar_url,
+                profile.location,
+                profile.blog,
+                profile.email,
+                profile.company,
+                profile.twitter_username
+            ].filter(Boolean).length / 7) * 100
+        );
+
+        let osRank = "Top 90%";
+        if (devScore >= 80) osRank = "Top 1%";
+        else if (devScore >= 60) osRank = "Top 15%";
+        else if (devScore >= 40) osRank = "Top 40%";
+        else if (devScore >= 20) osRank = "Top 70%";
+
         res.json({
             username: profile.login,
             followers: profile.followers,
@@ -105,14 +153,19 @@ async function analyzeProfile(req,res) {
             topRepoUrl,
             topRepoStars: maxStars,
             devScore,
+            devScoreBreakdown,
+            profileCompletion,
+            osRank,
             archetype: analysis.archetype,
             strengths: analysis.strengths,
             weaknesses: analysis.weaknesses,
             recommendations: analysis.recommendations,
             repoInsights,
             repositoryExplorer,
-            contributionSummary
-        })
+            contributionSummary,
+            achievements,
+            badges
+        });
     }catch(error){
         console.error("PROFILE ANALYSIS ERROR:");
         console.error(error);
