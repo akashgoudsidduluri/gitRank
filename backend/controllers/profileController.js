@@ -56,9 +56,7 @@ async function analyzeProfile(req,res) {
             }
             totalStars+=repo.stargazers_count;
         });
-        let averageStarsPerRepo=(repos.length>0 ?totalStars/repos.length:0).toFixed(2);
-        let {score:devScore}=calculateDevScore({followers:profile.followers,totalStars,publicRepos:profile.public_repos,accountAgeYears});
-        
+        let averageStarsPerRepo=(repos.length>0 ?totalStars/repos.length:0).toFixed(2);        
         //Profile Analysis
 
         const analysis = analyzeDeveloper({
@@ -86,7 +84,14 @@ async function analyzeProfile(req,res) {
             heatmap:
                 contributionAnalytics.contributionCalendar.weeks
         };
-
+        let { score: devScore } = calculateDevScore({
+            followers: profile.followers,
+            totalStars,
+            publicRepos: profile.public_repos,
+            accountAgeYears,
+            totalContributions:
+                contributionSummary.totalContributions
+        });
         res.json({
             username: profile.login,
             followers: profile.followers,
@@ -109,9 +114,11 @@ async function analyzeProfile(req,res) {
             contributionSummary
         })
     }catch(error){
-        res.status(404).json({
+        console.error("PROFILE ANALYSIS ERROR:");
+        console.error(error);
+        res.status(500).json({
             status:false,
-            message:"Github User Not Found"
+            message:error.message
         })
     }
 }
