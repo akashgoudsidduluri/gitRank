@@ -1,14 +1,35 @@
-# GitRank
+# 🚀 GitRank
 
-GitRank is a modern GitHub analytics platform that transforms raw GitHub profile data into meaningful developer insights.
+
+[![GitHub stars](https://img.shields.io/github/stars/akashgoudsidduluri/gitRank)](https://github.com/akashgoudsidduluri/gitRank/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/akashgoudsidduluri/gitRank)](https://github.com/akashgoudsidduluri/gitRank/issues)
+[![React](https://img.shields.io/badge/Frontend-React-61dafb.svg)](https://reactjs.org/)
+[![Node.js](https://img.shields.io/badge/Backend-Node.js-339933.svg)](https://nodejs.org/)
+[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/akashgoudsidduluri/gitRank/blob/main/LICENSE)
+
+**GitRank** is a modern GitHub analytics platform that transforms raw GitHub profile data into meaningful, actionable developer insights.
 
 Beyond basic GitHub statistics, GitRank evaluates repository impact, developer activity, account maturity, and profile quality to generate a custom GitRank Score along with actionable recommendations.
 
 ---
 
-## Features
+## 🌐 Live Demo
 
-### GitHub Profile Analysis
+Coming Soon
+
+---
+
+## 💡 Why GitRank?
+
+GitHub profiles expose large amounts of raw data but provide limited insight into what that data actually means.
+
+GitRank transforms repository statistics, developer activity, and profile metrics into actionable insights, helping developers better understand their open-source footprint and identify areas for growth.
+
+---
+
+## ✨ Features
+
+### 🔍 GitHub Profile Analysis
 
 Analyze any public GitHub profile instantly.
 
@@ -31,6 +52,20 @@ GitRank provides:
 * GitRank Score
 * Developer Archetype
 
+### Repository Insights
+
+GitRank provides deeper repository-level analytics:
+
+* Most Used Programming Language
+* Language Breakdown Analysis
+* Original Repository Count
+* Repositories With Stars
+* Repositories Without Stars
+* Average Forks Per Repository
+* Most Forked Repository
+* Newest Repository
+* Oldest Repository
+
 ### Smart Developer Analysis
 
 GitRank generates:
@@ -49,6 +84,26 @@ GitRank generates:
 * Skeleton Loading States
 * Repository Spotlight Cards
 * Interactive Statistics Dashboard
+* Multi-Tab Dashboard
+* Repository Insights Tab
+* Component-Based Architecture
+
+---
+
+## Dashboard Tabs
+
+Current Tabs:
+
+* Overview
+* Repository Insights
+
+Upcoming Tabs:
+
+* Contribution Analytics
+* Compare Developers
+* Leaderboard
+* PDF Export
+
 
 ---
 
@@ -79,15 +134,29 @@ GitRank calculates a custom developer score using:
 
 GitRank currently evaluates:
 
+### Profile Metrics
+
 * Followers
 * Following
 * Public Repositories
 * Total Stars
-* Average Stars per Repository
+* Average Stars Per Repository
 * Account Age
 * Most Starred Repository
-* Developer Score
-* Profile Archetype
+* GitRank Score
+* Developer Archetype
+
+### Repository Insights
+
+* Most Used Language
+* Language Distribution
+* Original Repository Count
+* Repositories With Stars
+* Repositories Without Stars
+* Average Forks Per Repository
+* Most Forked Repository
+* Newest Repository
+* Oldest Repository
 
 ---
 
@@ -129,11 +198,33 @@ gitRank/
 │
 ├── frontend/
 │   ├── src/
+│   │   ├── components/
+│   │   ├── tabs/
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
+│   │
 │   ├── public/
 │   └── package.json
 │
 └── README.md
 ```
+
+---
+
+## 🖼️ Screenshots
+
+### Home Screen
+
+Coming Soon
+
+### Analytics Dashboard
+
+Coming Soon
+
+### Repository Insights
+
+Coming Soon
 
 ---
 
@@ -232,6 +323,13 @@ GET /api/analyze/torvalds
   "topRepoStars": 210000,
   "devScore": 98,
   "archetype": "Legend",
+  "repoInsights": {
+    "mostUsedLanguage": "JavaScript",
+    "languageBreakdown": [],
+    "reposWithStars": 4,
+    "reposWithoutStars": 23,
+    "averageForksPerRepo": 0.04
+  },
   "strengths": [],
   "weaknesses": [],
   "recommendations": []
@@ -249,16 +347,18 @@ GET /api/analyze/torvalds
 * GitRank Score Engine
 * Smart Developer Analysis
 * Archetype Classification
+* Repository Insights
+* Language Analysis
 * Responsive Dashboard UI
 * Theme Toggle
+* Multi-Tab Dashboard
 * Loading Skeletons
 * Top Repository Spotlight
 * Full Stack Integration
+* Component-Based Frontend Architecture
 
 ### In Progress
 
-* Repository Insights
-* Language Analysis
 * Contribution Analytics
 * Developer Comparison
 
