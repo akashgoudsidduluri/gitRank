@@ -66,6 +66,15 @@ GitRank provides deeper repository-level analytics:
 * Newest Repository
 * Oldest Repository
 
+### 📂 Repository Explorer
+
+A dedicated space to browse through the user's codebase:
+
+* **Live Search**: Filter repositories by name, description, or language.
+* **Dynamic Sorting**: Sort by stars, forks, age, or alphabetical order.
+* **On-Demand Contributors**: Fetch the top 3 contributors for any repository with a single click.
+* **Responsive Grid**: Glassmorphic cards that adapt to all screen sizes.
+
 ### Smart Developer Analysis
 
 GitRank generates:
@@ -96,6 +105,7 @@ Current Tabs:
 
 * Overview
 * Repository Insights
+* Repository Explorer
 
 Upcoming Tabs:
 
@@ -330,6 +340,14 @@ GET /api/analyze/torvalds
     "reposWithoutStars": 23,
     "averageForksPerRepo": 0.04
   },
+  "repositoryExplorer": [
+    {
+      "name": "linux",
+      "stars": 210000,
+      "forks": 50000,
+      "language": "C"
+    }
+  ],
   "strengths": [],
   "weaknesses": [],
   "recommendations": []
