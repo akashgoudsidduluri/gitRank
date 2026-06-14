@@ -1,7 +1,8 @@
 const {
     getUserProfile,
     getUserRepos,
-    getRepoContributors
+    getRepoContributors,
+    getUserEvents
 } = require("../services/githubService.js");
 const {calculateDevScore} =require("../services/scoringService.js");
 const {analyzeDeveloper} =require("../services/AnalysisService");
@@ -9,11 +10,14 @@ const {generateRepoInsights} =require("../services/repoInsightsService.js");
 const {
     generateRepositoryExplorer
 } = require("../services/repositoryExplorerService");
+const {compileContributionStats} = require("../services/contributionService");
+
 async function analyzeProfile(req,res) {
     try{
         const username=req.params.username;
         const profile=await getUserProfile(username);
         const repos=await getUserRepos(username);
+        const events=await getUserEvents(username);
 
         //User Repos Analysis
 
@@ -52,6 +56,10 @@ async function analyzeProfile(req,res) {
         //Get Repo Insigts
         const repoInsights = generateRepoInsights(repos);
         const repositoryExplorer = generateRepositoryExplorer(repos);
+
+        // Compile Contribution Stats
+        const contributionStats = compileContributionStats(profile, repos, events);
+
         res.json({
             username: profile.login,
             followers: profile.followers,
@@ -70,7 +78,8 @@ async function analyzeProfile(req,res) {
             weaknesses: analysis.weaknesses,
             recommendations: analysis.recommendations,
             repoInsights,
-            repositoryExplorer
+            repositoryExplorer,
+            contributionStats
         })
     }catch(error){
         res.status(404).json({

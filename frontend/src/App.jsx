@@ -7,6 +7,7 @@ import OverviewTab from "./tabs/OverviewTab";
 import WeatherEffect from "./components/WeatherEffect";
 import RepoInsightsTab from "./tabs/RepoInsightsTab";
 import RepositoryExplorerTab from "./tabs/RepoExplorerTab";
+import ContributionAnalyticsTab from "./tabs/ContributionAnalyticsTab";
 import { 
   FaGithub, 
   FaSearch, 
@@ -22,7 +23,9 @@ import {
   FaCheckCircle, 
   FaExclamationCircle, 
   FaLightbulb, 
-  FaArrowLeft 
+  FaArrowLeft,
+  FaCloud,
+  FaCloudRain
 } from "react-icons/fa";
 
 function App() {
@@ -31,6 +34,16 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("overview");
+
+  // Weather state initialization
+  const [weatherEnabled, setWeatherEnabled] = useState(() => {
+    const saved = localStorage.getItem('gitrank-weather');
+    return saved !== null ? saved === 'true' : true;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('gitrank-weather', weatherEnabled);
+  }, [weatherEnabled]);
   // Theme setting initialization
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem('gitrank-theme');
@@ -78,7 +91,7 @@ function App() {
   return (
     <>
       {/* Weather Effects (Snow/Rain) */}
-      <WeatherEffect theme={theme} />
+      {weatherEnabled && <WeatherEffect theme={theme} />}
 
       {/* Background Blobs for Glassmorphism Depth */}
       <div className="background-blobs">
@@ -94,14 +107,24 @@ function App() {
             <FaGithub className="logo-icon" size={28} />
             <span>GitRank</span>
           </div>
-          <button 
-            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} 
-            className="theme-toggle-btn"
-            aria-label="Toggle theme"
-            title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-          >
-            {theme === 'light' ? <FaMoon /> : <FaSun />}
-          </button>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <button 
+              onClick={() => setWeatherEnabled(!weatherEnabled)} 
+              className="theme-toggle-btn"
+              aria-label="Toggle weather animation"
+              title={weatherEnabled ? "Turn off weather animations" : "Turn on weather animations"}
+            >
+              {weatherEnabled ? <FaCloudRain /> : <FaCloud />}
+            </button>
+            <button 
+              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} 
+              className="theme-toggle-btn"
+              aria-label="Toggle theme"
+              title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            >
+              {theme === 'light' ? <FaMoon /> : <FaSun />}
+            </button>
+          </div>
         </header>
 
         {/* Loading State */}
@@ -151,6 +174,11 @@ function App() {
                   []
                 }
                 profile={profile}
+              />
+            )}
+            {activeTab === "contributions" && (
+              <ContributionAnalyticsTab
+                contributionStats={profile.contributionStats}
               />
             )}
           </div>

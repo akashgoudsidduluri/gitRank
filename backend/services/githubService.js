@@ -15,8 +15,18 @@ async function getRepoContributors(owner, repo) {
 
     return response.data.slice(0, 3);
 }
+async function getUserEvents(username) {
+    try {
+        const response = await axios.get(`https://api.github.com/users/${username}/events/public`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching GitHub events:", error.message);
+        return [];
+    }
+}
 module.exports = {
     getUserProfile,
     getUserRepos,
-    getRepoContributors
+    getRepoContributors,
+    getUserEvents
 };
