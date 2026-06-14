@@ -6,6 +6,7 @@ import LoadingSkeleton from "./components/LoadingSkeleton";
 import OverviewTab from "./tabs/OverviewTab";
 import WeatherEffect from "./components/WeatherEffect";
 import RepoInsightsTab from "./tabs/RepoInsightsTab";
+import RepositoryExplorerTab from "./tabs/RepoExplorerTab";
 import { 
   FaGithub, 
   FaSearch, 
@@ -138,6 +139,18 @@ function App() {
             {activeTab === "repoInsights" && (
               <RepoInsightsTab
                 repoInsights={profile.repoInsights}
+              />
+            )}
+            {console.log(profile.repositoryExplorer)}
+            {activeTab === "repoExplorer" && (
+              <RepositoryExplorerTab
+                repositories={
+                  profile.repositoryExplorer ||
+                  profile.repoExplorer ||
+                  profile.repositories ||
+                  []
+                }
+                profile={profile}
               />
             )}
           </div>

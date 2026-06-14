@@ -912,3 +912,208 @@ body {
   transform:none;
   box-shadow:none;
 }
+
+/* Contributors Section Styles */
+.contributors-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.contributors-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-primary);
+  background: var(--glass-bg);
+}
+
+.contributors-btn:active {
+  transform: translateY(0);
+}
+
+.contributors-list {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contributor-card {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 8px 12px;
+
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.03);
+
+  border: 1px solid var(--card-border);
+
+  text-decoration: none;
+
+  transition: all 0.2s ease;
+}
+
+.contributor-card:hover {
+  transform: translateX(4px);
+}
+
+.contributor-card img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+
+  flex-shrink: 0;
+}
+
+.contributor-card div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.contributor-card strong {
+  font-size: 14px;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+.contributor-card p {
+  margin: 2px 0 0;
+  font-size: 12px;
+  min-height: unset !important;
+  color: var(--text-secondary);
+}
+
+.contributor-card:hover {
+  transform: translateX(4px);
+}
+
+.contributor-info p {
+  min-height: auto !important;
+  margin: 2px 0 0;
+}
+
+.contributor-card img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* Repo Explorer Toolbar Styles */
+.repo-toolbar.glass-panel {
+  padding: 16px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  border-radius: 20px;
+}
+
+.repo-search-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 280px;
+}
+
+.repo-search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.repo-search-input {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  border-radius: 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.repo-search-input:focus {
+  border-color: var(--accent-primary);
+  background: var(--glass-bg);
+  box-shadow: 0 0 0 3px var(--accent-primary-glow);
+}
+
+.repo-sort-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.repo-sort-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.repo-select {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+}
+
+.repo-select:hover {
+  background: var(--glass-bg);
+  border-color: var(--accent-primary);
+}
+
+.repo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.repo-card {
+  align-self: start;
+  height: fit-content;
+}
+
+[data-theme="dark"] .repo-select option {
+  background: #0f172a;
+  color: #ffffff;
+}
+
+[data-theme="light"] .repo-select option {
+  background: #ffffff;
+  color: #111827;
+}
+
+.repo-select:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px var(--accent-primary-glow);
+}

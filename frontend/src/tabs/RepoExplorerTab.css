@@ -1,0 +1,171 @@
+/* =========================
+   Repository Explorer
+========================= */
+
+.repo-explorer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.repo-toolbar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.repo-toolbar select {
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text-primary);
+  backdrop-filter: blur(12px);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.repo-toolbar select:focus {
+  outline: none;
+}
+
+/* =========================
+   Grid
+========================= */
+
+.repo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+/* =========================
+   Card
+========================= */
+
+.repo-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  min-height: 300px;
+
+  transition: all 0.25s ease;
+}
+
+.repo-card:hover {
+  transform: translateY(-4px);
+}
+
+.repo-card h3 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 20px;
+}
+
+.repo-card p {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.5;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+
+  min-height: 72px;
+}
+
+/* =========================
+   Language Badge
+========================= */
+
+.repo-language {
+  width: fit-content;
+
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  background: rgba(59, 130, 246, 0.15);
+
+  border: 1px solid rgba(59, 130, 246, 0.3);
+
+  color: #60a5fa;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* =========================
+   Stats
+========================= */
+
+.repo-stats {
+  display: flex;
+  gap: 16px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  color: var(--text-secondary);
+}
+
+/* =========================
+   Repo Link
+========================= */
+
+.repo-card a {
+  width: fit-content;
+
+  text-decoration: none;
+
+  padding: 10px 14px;
+
+  border-radius: 12px;
+
+  background: var(--accent-color);
+
+  color: white;
+
+  font-weight: 600;
+
+  transition: all 0.25s ease;
+}
+
+.repo-card a:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* =========================
+   Empty State
+========================= */
+
+.no-repos {
+  text-align: center;
+  padding: 40px;
+
+  color: var(--text-secondary);
+
+  border-radius: 20px;
+}
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 768px) {
+  .repo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .repo-toolbar {
+    justify-content: stretch;
+  }
+
+  .repo-toolbar select {
+    width: 100%;
+  }
+}

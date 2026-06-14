@@ -25,7 +25,18 @@ function DashboardTabs({
       >
         Repository Insights
       </button>
-
+        <button
+            className={
+                activeTab === "repoExplorer"
+                ? "tab-btn active-tab"
+                : "tab-btn"
+            }
+            onClick={() =>
+            setActiveTab("repoExplorer")
+            }
+        >
+            Repository Explorer
+        </button>
       <button className="tab-btn disabled-tab">
         Contributions
       </button>

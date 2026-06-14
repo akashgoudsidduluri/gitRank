@@ -1,7 +1,14 @@
-const {getUserProfile,getUserRepos} =require("../services/githubService.js");
+const {
+    getUserProfile,
+    getUserRepos,
+    getRepoContributors
+} = require("../services/githubService.js");
 const {calculateDevScore} =require("../services/scoringService.js");
 const {analyzeDeveloper} =require("../services/AnalysisService");
 const {generateRepoInsights} =require("../services/repoInsightsService.js");
+const {
+    generateRepositoryExplorer
+} = require("../services/repositoryExplorerService");
 async function analyzeProfile(req,res) {
     try{
         const username=req.params.username;
@@ -44,6 +51,7 @@ async function analyzeProfile(req,res) {
 
         //Get Repo Insigts
         const repoInsights = generateRepoInsights(repos);
+        const repositoryExplorer = generateRepositoryExplorer(repos);
         res.json({
             username: profile.login,
             followers: profile.followers,
@@ -61,7 +69,8 @@ async function analyzeProfile(req,res) {
             strengths: analysis.strengths,
             weaknesses: analysis.weaknesses,
             recommendations: analysis.recommendations,
-            repoInsights
+            repoInsights,
+            repositoryExplorer
         })
     }catch(error){
         res.status(404).json({
@@ -69,8 +78,29 @@ async function analyzeProfile(req,res) {
             message:"Github User Not Found"
         })
     }
+}
 
+async function getContributors(req, res) {
+    try {
+        const { owner, repo } = req.params;
+        const contributors = await getRepoContributors(owner, repo);
+
+        res.json(
+            contributors.map(c => ({
+                username: c.login,
+                avatar: c.avatar_url,
+                profileUrl: c.html_url,
+                contributions: c.contributions
+            }))
+        );
+    } catch (error) {
+        res.status(500).json({
+            message: "Unable to fetch contributors"
+        });
+    }
 }
-module.exports={
-    analyzeProfile
-}
+
+module.exports = {
+    analyzeProfile,
+    getContributors
+};
