@@ -46,10 +46,27 @@ async function getUserEvents(username) {
         return [];
     }
 }
+async function getUserIssueCount(username) {
+    const response = await axios.get(
+        `https://api.github.com/search/issues?q=author:${username}+type:issue`,
+        { headers: githubHeaders }
+    );
 
+    return response.data.total_count;
+}
+async function getUserPRCount(username) {
+    const response = await axios.get(
+        `https://api.github.com/search/issues?q=author:${username}+type:pr`,
+        { headers: githubHeaders }
+    );
+
+    return response.data.total_count;
+}
 module.exports = {
     getUserProfile,
     getUserRepos,
     getRepoContributors,
-    getUserEvents
+    getUserEvents,
+    getUserPRCount,
+    getUserIssueCount
 };

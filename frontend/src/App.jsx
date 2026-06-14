@@ -178,7 +178,7 @@ function App() {
             )}
             {activeTab === "contributions" && (
               <ContributionAnalyticsTab
-                contributionStats={profile.contributionStats}
+                profile={profile}
               />
             )}
           </div>

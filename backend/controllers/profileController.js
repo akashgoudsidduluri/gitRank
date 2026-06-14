@@ -2,23 +2,38 @@ const {
     getUserProfile,
     getUserRepos,
     getRepoContributors,
-    getUserEvents
+    getUserEvents,
+    getUserPRCount,
+    getUserIssueCount
 } = require("../services/githubService.js");
+const {getContributionAnalytics} = require("../services/githubGraphqlService");
 const {calculateDevScore} =require("../services/scoringService.js");
 const {analyzeDeveloper} =require("../services/AnalysisService");
 const {generateRepoInsights} =require("../services/repoInsightsService.js");
 const {
     generateRepositoryExplorer
 } = require("../services/repositoryExplorerService");
-const {compileContributionStats} = require("../services/contributionService");
 
 async function analyzeProfile(req,res) {
     try{
         const username=req.params.username;
-        const profile=await getUserProfile(username);
-        const repos=await getUserRepos(username);
-        const events=await getUserEvents(username);
+        const [
+            profile,
+            repos,
+            events,
+            totalPRs,
+            totalIssues,
+            contributionAnalytics
+        ] = await Promise.all([
+            getUserProfile(username),
+            getUserRepos(username),
+            getUserEvents(username),
+            getUserPRCount(username),
+            getUserIssueCount(username),
+            getContributionAnalytics(username)
+        ]);
 
+        console.log(`[GraphQL Debug] totalContributions for ${username}:`, contributionAnalytics.contributionCalendar.totalContributions);
         //User Repos Analysis
 
         let topRepo=null;
@@ -56,9 +71,21 @@ async function analyzeProfile(req,res) {
         //Get Repo Insigts
         const repoInsights = generateRepoInsights(repos);
         const repositoryExplorer = generateRepositoryExplorer(repos);
-
-        // Compile Contribution Stats
-        const contributionStats = compileContributionStats(profile, repos, events);
+        
+        const contributionSummary = {
+            totalContributions:
+                contributionAnalytics.contributionCalendar.totalContributions,
+            totalCommitContributions:
+                contributionAnalytics.totalCommitContributions,
+            totalPullRequestContributions:
+                contributionAnalytics.totalPullRequestContributions,
+            totalIssueContributions:
+                contributionAnalytics.totalIssueContributions,
+            totalReviewContributions:
+                contributionAnalytics.totalPullRequestReviewContributions,
+            heatmap:
+                contributionAnalytics.contributionCalendar.weeks
+        };
 
         res.json({
             username: profile.login,
@@ -79,7 +106,7 @@ async function analyzeProfile(req,res) {
             recommendations: analysis.recommendations,
             repoInsights,
             repositoryExplorer,
-            contributionStats
+            contributionSummary
         })
     }catch(error){
         res.status(404).json({
