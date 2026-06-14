@@ -37,7 +37,14 @@ function DashboardTabs({
         >
             Repository Explorer
         </button>
-      <button className="tab-btn disabled-tab">
+      <button
+        className={
+          activeTab === "contributions"
+            ? "tab-btn active-tab"
+            : "tab-btn"
+        }
+        onClick={() => setActiveTab("contributions")}
+      >
         Contributions
       </button>
 
