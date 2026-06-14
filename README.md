@@ -261,7 +261,7 @@ Create a `.env` file:
 
 ```env
 PORT=5000
-GITHUB_TOKEN=your_personal_access_token_optional
+GITHUB_TOKEN=YOUR_GITHUB_TOKEN
 ```
 
 Start development server:

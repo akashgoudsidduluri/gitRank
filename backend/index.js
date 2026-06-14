@@ -10,5 +10,9 @@ app.use(profileRoutes);
 const port=process.env.PORT || 3000;
 
 app.listen(port,()=>{
+    console.log(process.env.GITHUB_TOKEN
+    ? "GitHub token loaded"
+    : "No GitHub token");
     console.log(`server started at ${port}`);
+    
 });
