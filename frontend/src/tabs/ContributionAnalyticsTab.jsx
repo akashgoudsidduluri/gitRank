@@ -6,6 +6,27 @@ import {
   FaExclamationCircle, 
   FaCode
 } from "react-icons/fa";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Legend,
+  Filler
+} from "chart.js";
+import { Line } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Legend,
+  Filler
+);
 
 // Map strings to React Icons components for Achievements and Badges
 
@@ -69,10 +90,88 @@ function ContributionAnalyticsTab({ profile }) {
 
   const { contributionSummary } = profile;
 
+  const allDays = contributionSummary.heatmap.flatMap(
+    week => week.contributionDays
+  );
+
+  const monthlyMap = {};
+  allDays.forEach(day => {
+    const month = day.date.slice(0, 7);
+    monthlyMap[month] = (monthlyMap[month] || 0) + day.contributionCount;
+  });
+
+  const activityChartData = {
+    labels: Object.keys(monthlyMap).map(m => {
+      const date = new Date(m + "-02"); // Day 02 to avoid timezone shifts
+      return date.toLocaleDateString(undefined, { month: 'short' });
+    }),
+    datasets: [
+      {
+        label: "Contributions",
+        data: Object.values(monthlyMap),
+        borderColor: "#3b82f6",
+        backgroundColor: "rgba(59, 130, 246, 0.1)",
+        fill: true,
+        tension: 0.35,
+        pointBackgroundColor: "#3b82f6",
+        pointRadius: 4,
+      }
+    ]
+  };
+
+  const peakMonthEntry = Object.entries(monthlyMap)
+    .sort((a, b) => b[1] - a[1])[0];
+
+  const avgMonthlyContributions = Math.round(
+    Object.values(monthlyMap).reduce((a, b) => a + b, 0) / 
+    (Object.keys(monthlyMap).length || 1)
+  );
+
   return (
     <div className="profile-dashboard" style={{ animation: 'fade-in 0.5s ease-out', gap: '0' }}>
       {/* 1. Heatmap Widget */}
       <Heatmap data={contributionSummary.heatmap} />
+
+      {/* Activity Trend */}
+      <div className="glass-panel" style={{ marginTop: "20px" }}>
+        <h3 style={{ fontSize: "16px", fontWeight: "700", marginBottom: "16px" }}>
+          Activity Trend
+        </h3>
+
+        <div className="stats-grid" style={{ marginBottom: '24px', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))' }}>
+          <div className="stat-card" style={{ padding: '15px' }}>
+            <div className="stat-info">
+              <span className="stat-label">Peak Month</span>
+              <span className="stat-value" style={{ fontSize: '16px' }}>
+                {peakMonthEntry ? new Date(peakMonthEntry[0] + "-02").toLocaleDateString(undefined, { month: 'short', year: 'numeric' }) : 'N/A'}
+              </span>
+            </div>
+          </div>
+          <div className="stat-card" style={{ padding: '15px' }}>
+            <div className="stat-info">
+              <span className="stat-label">Monthly Avg</span>
+              <span className="stat-value" style={{ fontSize: '16px' }}>{avgMonthlyContributions}</span>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ height: '250px' }}>
+          <Line
+            data={activityChartData}
+            options={{
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false }
+              },
+              scales: {
+                y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.05)' } },
+                x: { grid: { display: false } }
+              }
+            }}
+          />
+        </div>
+      </div>
 
       {/* 2. Core Stats Grid */}
       <div className="glass-panel" style={{ marginTop: '20px' }}>
