@@ -35,6 +35,7 @@ function RepositoryExplorerTab({
   const getStars = (r) => r.stars ?? r.stargazers_count ?? 0;
   const getForks = (r) => r.forks ?? r.forks_count ?? 0;
   const getDate = (r) => new Date(r.createdAt ?? r.created_at ?? 0);
+  const getUpdateDate = (r) => new Date(r.updatedAt ?? r.updated_at ?? 0);
 
   switch (sortBy) {
     case "stars":
@@ -129,18 +130,29 @@ function RepositoryExplorerTab({
                 className="repo-card glass-panel"
               >
                 <h3>{repo.name}</h3>
-                <p>
+                <div className="repo-meta">
+                  Created {getDate(repo).toLocaleDateString(undefined, { month: 'short', year: 'numeric' })} 
+                  {" • "} 
+                  Updated {getUpdateDate(repo).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+                </div>
+                <p className="repo-description">
                   {repo.description ||
                     "No description provided"}
                 </p>
-                <div className="repo-language">{repo.language}</div>
-                <div className="repo-stats">
-                  ⭐ {getStars(repo)}
-                  {"  "}
-                  🍴 {getForks(repo)}
+                <div className="repo-language">
+                  ● {repo.language || "Unknown"}
                 </div>
-                <a href={repo.url || repo.html_url} target="_blank" rel="noreferrer">
-                  View Repository
+                <div className="repo-stats">
+                  <div className="repo-stat">⭐ {getStars(repo)}</div>
+                  <div className="repo-stat">🍴 {getForks(repo)}</div>
+                </div>
+                <a 
+                  className="repo-link" 
+                  href={repo.url || repo.html_url} 
+                  target="_blank" 
+                  rel="noreferrer"
+                >
+                  View Repository ↗
                 </a>
 
                 <button
