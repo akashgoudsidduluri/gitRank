@@ -3,6 +3,13 @@ require("dotenv").config();
 const cors=require("cors");
 const profileRoutes = require("./routes/profileRoutes");
 const app=express();
+
+app.get("/health", (_, res) => {
+    res.status(200).json({
+        status: "ok"
+    });
+});
+
 const allowedOrigins = [
     "http://localhost:5173",
     process.env.FRONTEND_URL
@@ -14,19 +21,11 @@ app.use(cors({
 app.use(express.json());
 app.use(profileRoutes);
 
-app.get("/health", (_, res) => {
-    res.status(200).json({
-        status: "ok",
-        uptime: process.uptime()
-    });
-});
-
 const port=process.env.PORT || 3000;
 
-app.listen(port,()=>{
+app.listen(port, "0.0.0.0", ()=>{
     console.log(process.env.GITHUB_TOKEN
     ? "GitHub token loaded"
     : "No GitHub token");
     console.log(`server started at ${port}`);
-    
 });
