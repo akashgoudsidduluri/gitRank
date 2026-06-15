@@ -3,7 +3,8 @@ import axios from "axios";
 import { FaSearch, FaSortAmountDown } from "react-icons/fa";
 // Ensure this file exists in src/tabs/ and is named exactly RepoExplorerTab.css
 import "./RepoExplorerTab.css";
-
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000";
 function RepositoryExplorerTab({
   repositories,
   profile
@@ -70,9 +71,11 @@ function RepositoryExplorerTab({
 
     try {
       setLoadingRepo(key);
+
       const response = await axios.get(
-        `http://localhost:5000/api/repo-contributors/${owner}/${repo}`
+        `${API_URL}/api/repo-contributors/${owner}/${repo}`
       );
+
 
       setContributors(prev => ({
         ...prev,
@@ -131,8 +134,8 @@ function RepositoryExplorerTab({
               >
                 <h3>{repo.name}</h3>
                 <div className="repo-meta">
-                  Created {getDate(repo).toLocaleDateString(undefined, { month: 'short', year: 'numeric' })} 
-                  {" • "} 
+                  Created {getDate(repo).toLocaleDateString(undefined, { month: 'short', year: 'numeric' })}
+                  {" • "}
                   Updated {getUpdateDate(repo).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
                 </div>
                 <p className="repo-description">
@@ -146,10 +149,10 @@ function RepositoryExplorerTab({
                   <div className="repo-stat">⭐ {getStars(repo)}</div>
                   <div className="repo-stat">🍴 {getForks(repo)}</div>
                 </div>
-                <a 
-                  className="repo-link" 
-                  href={repo.url || repo.html_url} 
-                  target="_blank" 
+                <a
+                  className="repo-link"
+                  href={repo.url || repo.html_url}
+                  target="_blank"
                   rel="noreferrer"
                 >
                   View Repository ↗
