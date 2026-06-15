@@ -2,6 +2,7 @@ const express=require("express");
 require("dotenv").config();
 const cors=require("cors");
 const profileRoutes = require("./routes/profileRoutes");
+const app=express();
 const allowedOrigins = [
     "http://localhost:5173",
     process.env.FRONTEND_URL
