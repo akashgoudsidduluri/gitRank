@@ -15,7 +15,8 @@ Beyond basic GitHub statistics, GitRank evaluates repository impact, developer a
 
 ## 🌐 Live Demo
 
-Coming Soon
+* **Frontend Web App**: [![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://git-rank-kappa.vercel.app)
+* **Backend REST API**: [![Render](https://img.shields.io/badge/Render-Running-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://gitrank-api.onrender.com/health)
 
 ---
 
@@ -49,8 +50,19 @@ GitRank provides:
 * Average Stars Per Repository
 * Account Age
 * Top Repository
-* GitRank Score
 * Developer Archetype
+
+### GitRank Score v2
+
+GitRank calculates a weighted developer score using:
+
+* **Contribution Activity**: Commit volumes, pull requests, issues, and code reviews.
+* **Repository Impact**: Aggregate stars across your codebase portfolio.
+* **Community Reach**: Followers base and community engagement.
+* **Repository Portfolio**: Public repos catalog metrics.
+* **Account Age**: Maturity index of the profile.
+
+Includes a detailed score breakdown for complete transparency.
 
 ### Contribution Analytics
 
@@ -157,49 +169,13 @@ GitRank calculates a custom developer score using:
 
 > GitRank Score reflects GitHub profile impact and open-source visibility. It is not a direct measure of software engineering ability.
 
----
-
 ## Current Metrics
 
-GitRank currently evaluates:
+GitRank aggregates and processes statistics directly into simple, intuitive values:
 
-### Profile Metrics
-
-* Followers
-* Following
-* Public Repositories
-* Total Stars
-* Average Stars Per Repository
-* Account Age
-* Most Starred Repository
-* GitRank Score
-* Developer Archetype
-
-### Contribution Metrics
-
-• Total Contributions
-• Commit Contributions
-• Pull Request Contributions
-• Issue Contributions
-• Code Reviews
-• Contribution Heatmap
-• Current Streak
-• Longest Streak
-• Peak Contribution Day
-• Active Days
-• Monthly Contribution Trends
-
-### Repository Insights
-
-* Most Used Language
-* Language Distribution
-* Original Repository Count
-* Repositories With Stars
-* Repositories Without Stars
-* Average Forks Per Repository
-* Most Forked Repository
-* Newest Repository
-* Oldest Repository
+* **Profile Overview**: Followers, Following, Total Stars, Repo Count, and Archetype.
+* **Contribution Activity**: Heatmap charts, current/longest streaks, peak contribution day, and monthly activity trends.
+* **Codebase Explorer**: Sortable languages, fork volumes, repo age metadata, and contributor metrics.
 
 ---
 
@@ -210,7 +186,9 @@ GitRank currently evaluates:
 * React
 * Axios
 * React Icons
-* Modern CSS (Glassmorphism UI)
+* Chart.js
+* React ChartJS 2
+* Modern CSS (Glassmorphism UI Design System)
 
 ### Backend
 
@@ -223,6 +201,15 @@ GitRank currently evaluates:
 ### APIs
 
 * GitHub REST API
+* GitHub GraphQL API
+
+---
+
+## ☁️ Deployment Architecture
+
+* **Frontend**: Vercel (Production SPA hosting)
+* **Backend Service**: Render Web Service (Node.js engine)
+* **API Providers**: GitHub REST API v3 & GitHub GraphQL API v4
 
 ---
 
@@ -257,17 +244,17 @@ gitRank/
 
 ## 🖼️ Screenshots
 
-### Home Screen
+### Home Landing Screen
+![Home Screen](screenshots/home.png)
 
-Coming Soon
+### Developer Overview Dashboard
+![Overview Dashboard](screenshots/overview.png)
 
-### Analytics Dashboard
+### Contribution Analytics Heatmap
+![Contributions Tab](screenshots/contributions.png)
 
-Coming Soon
-
-### Repository Insights
-
-Coming Soon
+### Interactive Repository Explorer
+![Repository Explorer](screenshots/explorer.png)
 
 ---
 
