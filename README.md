@@ -128,22 +128,10 @@ GitRank generates:
 
 ---
 
-## Dashboard Tabs
-
-Current Tabs:
-
 * Overview
 * Repository Insights
 * Repository Explorer
 * Contributions
-
-Upcoming Tabs:
-
-* Contribution Analytics
-* Compare Developers
-* Leaderboard
-* PDF Export
-
 
 ---
 
@@ -414,15 +402,17 @@ GET /api/analyze/torvalds
 * Language Analysis
 * Responsive Dashboard UI
 * Theme Toggle
-* Multi-Tab Dashboard
+* Multi-Tab Dashboard (Overview, Repository Insights, Repository Explorer, Contributions)
 * Loading Skeletons
 * Top Repository Spotlight
 * Full Stack Integration
 * Component-Based Frontend Architecture
+* Contribution Analytics (Heatmap, commit/PR/issue/review counts)
+* Unlockable Achievements & Badges
+* Profile Completion Progress Tracker
 
 ### In Progress
 
-* Contribution Analytics
 * Developer Comparison
 
 ### Planned
@@ -434,6 +424,7 @@ GET /api/analyze/torvalds
 * AI Career Insights
 * Repository Quality Analysis
 * Open Source Contribution Analytics
+
 
 ---
 

@@ -67,7 +67,10 @@ function App() {
     setProfile(null);
     
     try {
-      const response = await axios.get(`http://localhost:5000/api/analyze/${username.trim()}`);
+      const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+      const response = await axios.get(`${API_URL}/api/analyze/${username.trim()}`, {
+        timeout: 20000
+      });
       setProfile(response.data);
     } catch (err) {
       console.error(err);
@@ -164,7 +167,6 @@ function App() {
                 repoInsights={profile.repoInsights}
               />
             )}
-            {console.log(profile.repositoryExplorer)}
             {activeTab === "repoExplorer" && (
               <RepositoryExplorerTab
                 repositories={

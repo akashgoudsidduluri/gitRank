@@ -24,16 +24,22 @@ async function analyzeProfile(req,res) {
             repos,
             events,
             totalPRs,
-            totalIssues,
-            contributionAnalytics
+            totalIssues
         ] = await Promise.all([
             getUserProfile(username),
             getUserRepos(username),
             getUserEvents(username),
             getUserPRCount(username),
-            getUserIssueCount(username),
-            getContributionAnalytics(username)
+            getUserIssueCount(username)
         ]);
+
+        // Graceful GraphQL Handling
+        let contributionAnalytics = null;
+        try {
+            contributionAnalytics = await getContributionAnalytics(username);
+        } catch (err) {
+            console.error("GraphQL failed", err);
+        }
 
         //User Repos Analysis
 
@@ -73,17 +79,17 @@ async function analyzeProfile(req,res) {
         
         const contributionSummary = {
             totalContributions:
-                contributionAnalytics.contributionCalendar.totalContributions,
+                contributionAnalytics?.contributionCalendar?.totalContributions || 0,
             totalCommitContributions:
-                contributionAnalytics.totalCommitContributions,
+                contributionAnalytics?.totalCommitContributions || 0,
             totalPullRequestContributions:
-                contributionAnalytics.totalPullRequestContributions,
+                contributionAnalytics?.totalPullRequestContributions || 0,
             totalIssueContributions:
-                contributionAnalytics.totalIssueContributions,
+                contributionAnalytics?.totalIssueContributions || 0,
             totalReviewContributions:
-                contributionAnalytics.totalPullRequestReviewContributions,
+                contributionAnalytics?.totalPullRequestReviewContributions || 0,
             heatmap:
-                contributionAnalytics.contributionCalendar.weeks
+                contributionAnalytics?.contributionCalendar?.weeks || []
         };
 
         let { score: devScore, breakdown: devScoreBreakdown } = calculateDevScore({
@@ -93,6 +99,14 @@ async function analyzeProfile(req,res) {
             accountAgeYears,
             totalContributions:
                 contributionSummary.totalContributions
+        });
+
+        const badges = generateBadges({
+            score: devScore,
+            totalContributions:
+            contributionSummary.totalContributions,
+            totalStars,
+            publicRepos: profile.public_repos
         });
 
         const achievements = generateAchievements({
@@ -111,14 +125,6 @@ async function analyzeProfile(req,res) {
             publicRepos: profile.public_repos,
             totalStars,
             accountAgeYears
-        });
-
-        const badges = generateBadges({
-            score: devScore,
-            totalContributions:
-            contributionSummary.totalContributions,
-            totalStars,
-            publicRepos: profile.public_repos
         });
 
         // Profile Completion Check
@@ -167,11 +173,10 @@ async function analyzeProfile(req,res) {
             badges
         });
     }catch(error){
-        console.error("PROFILE ANALYSIS ERROR:");
-        console.error(error);
+        console.error("PROFILE ANALYSIS ERROR:", error);
         res.status(500).json({
             status:false,
-            message:error.message
+            message:"Failed to analyze profile"
         })
     }
 }
