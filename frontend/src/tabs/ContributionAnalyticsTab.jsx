@@ -105,6 +105,28 @@ const Heatmap = ({ data }) => {
 
 // Main Export Component for Tab
 function ContributionAnalyticsTab({ profile }) {
+  const [selectedAchievement, setSelectedAchievement] = useState(null);
+  const [showScoreBreakdown, setShowScoreBreakdown] = useState(false);
+  const [legendColor, setLegendColor] = useState("#94a3b8");
+  const [gridColor, setGridColor] = useState("rgba(0, 0, 0, 0.05)");
+
+  // Reactive color detection for Chart.js
+  useEffect(() => {
+    const updateChartTheme = () => {
+      const styles = getComputedStyle(document.documentElement);
+      const secondary = styles.getPropertyValue('--text-secondary').trim();
+      if (secondary) setLegendColor(secondary);
+
+      const theme = document.documentElement.getAttribute('data-theme');
+      setGridColor(theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.08)');
+    };
+
+    updateChartTheme();
+    const observer = new MutationObserver(updateChartTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    return () => observer.disconnect();
+  }, []);
+
   if (!profile || !profile.contributionSummary) {
     return (
       <div className="glass-panel" style={{ textAlign: 'center', padding: '40px' }}>
@@ -113,11 +135,6 @@ function ContributionAnalyticsTab({ profile }) {
       </div>
     );
   }
-
-  const [selectedAchievement, setSelectedAchievement] = useState(null);
-  const [showScoreBreakdown, setShowScoreBreakdown] = useState(false);
-  const [legendColor, setLegendColor] = useState("#94a3b8");
-  const [gridColor, setGridColor] = useState("rgba(0, 0, 0, 0.05)");
 
   const getBadgeDescription = (title) => {
     const descriptions = {
@@ -164,23 +181,6 @@ function ContributionAnalyticsTab({ profile }) {
     achievements,
     badges
   } = profile;
-
-  // Reactive color detection for Chart.js
-  useEffect(() => {
-    const updateChartTheme = () => {
-      const styles = getComputedStyle(document.documentElement);
-      const secondary = styles.getPropertyValue('--text-secondary').trim();
-      if (secondary) setLegendColor(secondary);
-
-      const theme = document.documentElement.getAttribute('data-theme');
-      setGridColor(theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.08)');
-    };
-
-    updateChartTheme();
-    const observer = new MutationObserver(updateChartTheme);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-    return () => observer.disconnect();
-  }, []);
 
   const allDays = contributionSummary.heatmap.flatMap(
     week => week.contributionDays

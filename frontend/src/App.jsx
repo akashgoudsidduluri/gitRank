@@ -211,6 +211,17 @@ function App() {
             </form>
 
             <ErrorBanner error={error} />
+
+            <div style={{ marginTop: '24px' }}>
+              <a 
+                href="https://github.com/akashgoudsidduluri/gitRank" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="github-repo-link"
+              >
+                <FaStar className="star-icon" /> Star the Repo on GitHub
+              </a>
+            </div>
           </div>
         )}
       </div>

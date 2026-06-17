@@ -91,7 +91,6 @@
   margin: 0;
   padding: 0;
   font-family: var(--font-family);
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
 body {
@@ -104,6 +103,7 @@ body {
   overflow-x: hidden;
   position: relative;
   padding: 40px 20px;
+  transition: background 0.4s ease, color 0.4s ease;
 }
 
 /* Background Blobs for Glassmorphism Depth */
@@ -204,6 +204,7 @@ body {
   border-radius: 24px;
   padding: 32px;
   position: relative;
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .glass-panel::before {
@@ -387,6 +388,35 @@ body {
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+}
+
+/* GitHub Repo Link Badge */
+.github-repo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 99px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.github-repo-link:hover {
+  background: var(--glass-bg);
+  border-color: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+}
+
+.github-repo-link .star-icon {
+  color: #f59e0b; /* Golden star color */
+  font-size: 16px;
 }
 
 /* Loading Skeleton & Pulsing Shimmer */
@@ -781,10 +811,25 @@ body {
 .icon-weakness { color: var(--weakness-color); }
 .icon-recommendation { color: var(--recommendation-color); }
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
+/* Mobile layout fixes to prevent top cutoff and fix horizontal overflows */
+@media (max-width: 768px) {
   body {
+    display: block; /* Overrides the desktop flex centering that causes top cutoff */
     padding: 20px 10px;
+  }
+  
+  .app-wrapper {
+    margin: 0 auto;
+    min-height: calc(100vh - 40px);
+  }
+  
+  .hero-section {
+    margin: auto 0;
+    padding: 24px 16px;
+  }
+  
+  .hero-section h1 {
+    font-size: 28px;
   }
   
   .glass-panel {
@@ -795,14 +840,6 @@ body {
     padding: 12px 16px;
   }
   
-  .hero-section {
-    padding: 24px 16px;
-  }
-  
-  .hero-section h1 {
-    font-size: 28px;
-  }
-  
   .profile-header-card {
     flex-direction: column;
     align-items: flex-start;
@@ -811,6 +848,10 @@ body {
   .score-badge-container {
     width: 100%;
     justify-content: space-between;
+  }
+  
+  .repo-search-wrapper {
+    min-width: 100%;
   }
 }
 
@@ -1023,8 +1064,8 @@ body {
 
 .repo-search-wrapper {
   position: relative;
-  flex: 1;
-  min-width: 280px;
+  flex: 1 1 100%;
+  min-width: 200px;
 }
 
 .repo-search-icon {
