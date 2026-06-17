@@ -419,6 +419,45 @@ body {
   font-size: 16px;
 }
 
+/* Share Button */
+.share-btn {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  background: var(--bg-gradient-start);
+  border: 1px solid var(--accent-primary);
+  color: #fff;
+  border-radius: 99px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10;
+}
+
+.share-btn:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+}
+
+.share-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
 /* Loading Skeleton & Pulsing Shimmer */
 .loading-skeleton {
   display: flex;

@@ -125,6 +125,13 @@ GitRank generates:
 * Personalized Recommendations
 * Developer Archetype Classification
 
+### 📸 Share Your GitRank (Social Card)
+
+Generate beautiful, high-quality PNG screenshots of your GitRank profile specifically formatted for sharing on social media (Twitter, LinkedIn).
+* Custom glassmorphic Share Modal
+* Copy directly to clipboard
+* Instant PNG downloads
+
 ### Modern Dashboard UI
 
 * Glassmorphism Design System
@@ -397,6 +404,7 @@ GET /api/analyze/torvalds
 * Contribution Analytics (Heatmap, commit/PR/issue/review counts)
 * Unlockable Achievements & Badges
 * Profile Completion Progress Tracker
+* Social Card Generator (Share Your GitRank)
 
 ### In Progress
 
