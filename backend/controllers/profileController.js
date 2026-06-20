@@ -92,9 +92,10 @@ async function analyzeProfile(req,res) {
                 contributionAnalytics?.contributionCalendar?.weeks || []
         };
 
-        let { score: devScore, breakdown: devScoreBreakdown } = calculateDevScore({
+        let { score: devScore, breakdown: devScoreBreakdown, tier: devTier } = calculateDevScore({
             followers: profile.followers,
             totalStars,
+            topRepoStars: maxStars,
             publicRepos: profile.public_repos,
             accountAgeYears,
             totalContributions:
@@ -159,6 +160,7 @@ async function analyzeProfile(req,res) {
             topRepoUrl,
             topRepoStars: maxStars,
             devScore,
+            devTier,
             devScoreBreakdown,
             profileCompletion,
             osRank,

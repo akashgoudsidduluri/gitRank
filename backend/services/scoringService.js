@@ -1,49 +1,125 @@
 function calculateDevScore({
-    followers,
-    totalStars,
-    publicRepos,
-    accountAgeYears,
-    totalContributions
-}) {
-    const contributionScore =
-        (Math.min(Math.log10(totalContributions + 1), 4) / 4) * 35;
+    followers = 0,
+    totalStars = 0,
+    topRepoStars = 0,
+    totalContributions = 0,
+    publicRepos = 0,
+    accountAgeYears = 0
+} = {}) {
 
-    const starScore =
-        (Math.min(Math.log10(totalStars + 1), 4) / 4) * 25;
+    const logNorm = (value, max) =>
+        Math.min(Math.log1p(value) / Math.log1p(max), 1);
 
-    const followerScore =
-        (Math.min(Math.log10(followers + 1), 3) / 3) * 15;
+    // ======================
+    // IMPACT (50)
+    // ======================
 
-    const repoScore =
-        (Math.min(Math.sqrt(publicRepos), 10) / 10) * 15;
+    const starsNorm = logNorm(totalStars, 250000);
+    const topRepoNorm = logNorm(topRepoStars, 250000);
+    const followerNorm = logNorm(followers, 20000);
 
-    const ageScore =
-        (Math.min(accountAgeYears, 8) / 8) * 10;
+    const starsPerRepo =
+        totalStars / Math.max(publicRepos, 1);
 
-    const rawScore =
-        contributionScore +
-        starScore +
-        followerScore +
-        repoScore +
-        ageScore;
+    const efficiencyNorm =
+        logNorm(starsPerRepo, 200);
 
-    // Soft boost for average developers
-    const score = Math.min(
-        100,
-        Math.round(Math.pow(rawScore / 100, 0.75) * 100)
+    const impactScore =
+        starsNorm * 22 +
+        topRepoNorm * 15 +
+        followerNorm * 8 +
+        efficiencyNorm * 5;
+
+    // ======================
+    // ACTIVITY (25)
+    // ======================
+
+    const contributionsNorm =
+        logNorm(totalContributions, 2500);
+
+    const activityScore =
+        contributionsNorm * 25;
+
+    // ======================
+    // EXPERIENCE (15)
+    // ======================
+
+    const ageNorm =
+        logNorm(accountAgeYears, 12);
+
+    const repoNorm =
+        logNorm(publicRepos, 100);
+
+    const experienceScore =
+        ageNorm * 10 +
+        repoNorm * 5;
+
+    // ======================
+    // QUALITY BONUS (10)
+    // ======================
+
+    const qualityBonus =
+        Math.pow(
+            starsNorm *
+            contributionsNorm *
+            ageNorm,
+            1 / 3
+        ) * 10;
+
+    // ======================
+    // RAW SCORE
+    // ======================
+
+    const rawScore = Math.min(
+        impactScore +
+        activityScore +
+        experienceScore +
+        qualityBonus,
+        100
     );
 
+    // ======================
+    // DISPLAY SCORE
+    // ======================
+
+    const displayScore =
+        40 + 60 * Math.pow(rawScore / 100, 0.70);
+
+    const score =
+        Number(displayScore.toFixed(2));
+
+    // ======================
+    // TIERS
+    // ======================
+
+    let tier;
+
+    if (score >= 99)
+        tier = "Legendary";
+    else if (score >= 97)
+        tier = "Elite";
+    else if (score >= 93)
+        tier = "Expert";
+    else if (score >= 85)
+        tier = "Advanced";
+    else if (score >= 70)
+        tier = "Skilled";
+    else if (score >= 55)
+        tier = "Growing";
+    else
+        tier = "Newcomer";
     return {
         score,
+        tier,
+        rawScore: Number(rawScore.toFixed(2)),
         breakdown: {
-            contributions: Math.round(contributionScore),
-            stars: Math.round(starScore),
-            followers: Math.round(followerScore),
-            repositories: Math.round(repoScore),
-            age: Math.round(ageScore)
+            impact: Number(impactScore.toFixed(2)),
+            activity: Number(activityScore.toFixed(2)),
+            experience: Number(experienceScore.toFixed(2)),
+            quality: Number(qualityBonus.toFixed(2)),
+            starsPerRepo: Number(starsPerRepo.toFixed(2))
         }
     };
 }
-module.exports = {
-    calculateDevScore
-};
+
+module.exports = { calculateDevScore };

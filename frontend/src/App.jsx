@@ -63,7 +63,7 @@ function App() {
     if (!username.trim()) return;
 
     let targetUsername = username.trim();
-    
+
     // Support URL pasting
     if (targetUsername.includes('github.com/')) {
       const parts = targetUsername.split('github.com/');
@@ -230,7 +230,7 @@ function App() {
                 <div className="example-user-info">
                   <h3>torvalds</h3>
                   <div className="example-badges">
-                    <span className="example-score-badge">GitRank Score: 98</span>
+                    <span className="example-score-badge">GitRank Score: 99</span>
                     <span className="example-tier-badge">Tier: Legend</span>
                   </div>
                 </div>
@@ -251,8 +251,8 @@ function App() {
         {!loading && !profile && (
           <div className="feature-preview-section">
             <div className="credibility-strip">
-              <span>Calculates 10+ GitHub Metrics</span> <span className="credibility-dot">•</span> 
-              <span>Uses GitHub REST & GraphQL APIs</span> <span className="credibility-dot">•</span> 
+              <span>Calculates 10+ GitHub Metrics</span> <span className="credibility-dot">•</span>
+              <span>Uses GitHub REST & GraphQL APIs</span> <span className="credibility-dot">•</span>
               <span>Real-Time Profile Analysis</span>
             </div>
             <h2>What You'll Get</h2>
