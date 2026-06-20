@@ -8,21 +8,21 @@ import WeatherEffect from "./components/WeatherEffect";
 import RepoInsightsTab from "./tabs/RepoInsightsTab";
 import RepositoryExplorerTab from "./tabs/RepoExplorerTab";
 import ContributionAnalyticsTab from "./tabs/ContributionAnalyticsTab";
-import { 
-  FaGithub, 
-  FaSearch, 
-  FaMoon, 
-  FaSun, 
-  FaStar, 
-  FaUsers, 
-  FaUserFriends, 
-  FaCodeBranch, 
-  FaChartLine, 
-  FaCalendarAlt, 
-  FaExternalLinkAlt, 
-  FaCheckCircle, 
-  FaExclamationCircle, 
-  FaLightbulb, 
+import {
+  FaGithub,
+  FaSearch,
+  FaMoon,
+  FaSun,
+  FaStar,
+  FaUsers,
+  FaUserFriends,
+  FaCodeBranch,
+  FaChartLine,
+  FaCalendarAlt,
+  FaExternalLinkAlt,
+  FaCheckCircle,
+  FaExclamationCircle,
+  FaLightbulb,
   FaArrowLeft,
   FaCloud,
   FaCloudRain
@@ -65,7 +65,7 @@ function App() {
     setLoading(true);
     setError(null);
     setProfile(null);
-    
+
     try {
       const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
       const response = await axios.get(`${API_URL}/api/analyze/${username.trim()}`, {
@@ -111,16 +111,16 @@ function App() {
             <span>GitRank</span>
           </div>
           <div style={{ display: 'flex', gap: '10px' }}>
-            <button 
-              onClick={() => setWeatherEnabled(!weatherEnabled)} 
+            <button
+              onClick={() => setWeatherEnabled(!weatherEnabled)}
               className="theme-toggle-btn"
               aria-label="Toggle weather animation"
               title={weatherEnabled ? "Turn off weather animations" : "Turn on weather animations"}
             >
               {weatherEnabled ? <FaCloudRain /> : <FaCloud />}
             </button>
-            <button 
-              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} 
+            <button
+              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
               className="theme-toggle-btn"
               aria-label="Toggle theme"
               title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
@@ -138,11 +138,11 @@ function App() {
           <div className="profile-dashboard">
             {/* Back button */}
             <div>
-              <button onClick={resetSearch} className="search-btn" style={{ 
-                padding: '10px 18px', 
-                fontSize: '14px', 
-                display: 'inline-flex', 
-                alignItems: 'center', 
+              <button onClick={resetSearch} className="search-btn" style={{
+                padding: '10px 18px',
+                fontSize: '14px',
+                display: 'inline-flex',
+                alignItems: 'center',
                 gap: '8px',
                 background: 'var(--card-bg)',
                 border: '1px solid var(--card-border)',
@@ -191,16 +191,16 @@ function App() {
           <div className="glass-panel hero-section">
             <FaGithub size={100} className="hero-icon" />
             <h1>GitRank</h1>
-            <p>Analyze your GitHub profile, calculate your Developer Score, and unlock personalized growth metrics with glassmorphic insights.</p>
-            
+            <p>Get your GitRank Score, repository insights, contribution analytics, streak tracking, and developer ranking in seconds.</p>
+
             <form onSubmit={analyzeProfile} className="search-container">
               <div className="search-bar-wrapper">
                 <FaSearch className="search-icon-inline" />
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)} 
-                  placeholder="Enter GitHub Username" 
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Enter GitHub Username"
                   className="search-input"
                   required
                 />
@@ -210,13 +210,66 @@ function App() {
               </button>
             </form>
 
-            <ErrorBanner error={error} />
+            <div className="example-report-card">
+              <div className="example-header">
+                <div className="example-avatar">LT</div>
+                <div className="example-user-info">
+                  <h3>torvalds</h3>
+                  <div className="example-badges">
+                    <span className="example-score-badge">GitRank Score: 98</span>
+                    <span className="example-tier-badge">Tier: Legend</span>
+                  </div>
+                </div>
+              </div>
+              <div className="example-stats">
+                <div className="example-stat-item"><FaStar className="stat-icon" /> <span>214k Stars</span></div>
+                <div className="example-stat-item"><FaCodeBranch className="stat-icon" /> <span>6 Repositories</span></div>
+                <div className="example-stat-item"><FaChartLine className="stat-icon" /> <span>365 Days Streak</span></div>
+                <div className="example-stat-item"><FaUsers className="stat-icon" /> <span>232k Followers</span></div>
+              </div>
+            </div>
 
-            <div style={{ marginTop: '24px' }}>
-              <a 
-                href="https://github.com/akashgoudsidduluri/gitRank" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+            <ErrorBanner error={error} />
+          </div>
+        )}
+
+        {/* Feature Preview Section Below the Fold */}
+        {!loading && !profile && (
+          <div className="feature-preview-section">
+            <div className="credibility-strip">
+              <span>Calculates 10+ GitHub Metrics</span> <span className="credibility-dot">•</span> 
+              <span>Uses GitHub REST & GraphQL APIs</span> <span className="credibility-dot">•</span> 
+              <span>Real-Time Profile Analysis</span>
+            </div>
+            <h2>What You'll Get</h2>
+            <div className="feature-grid">
+              <div className="feature-card">
+                <div className="feature-icon-wrapper"><FaChartLine /></div>
+                <h3>GitRank Score</h3>
+                <p>Custom score based on repositories, stars, activity, and influence.</p>
+              </div>
+              <div className="feature-card">
+                <div className="feature-icon-wrapper"><FaCalendarAlt /></div>
+                <h3>Contribution Analytics</h3>
+                <p>Track streaks, consistency, and activity trends.</p>
+              </div>
+              <div className="feature-card">
+                <div className="feature-icon-wrapper"><FaStar /></div>
+                <h3>Repository Insights</h3>
+                <p>Analyze your most impactful projects and languages.</p>
+              </div>
+              <div className="feature-card">
+                <div className="feature-icon-wrapper"><FaUsers /></div>
+                <h3>Developer Ranking</h3>
+                <p>Compare your profile against other developers.</p>
+              </div>
+            </div>
+
+            <div style={{ marginTop: '48px', marginBottom: '24px' }}>
+              <a
+                href="https://github.com/akashgoudsidduluri/gitRank"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="github-repo-link"
               >
                 <FaStar className="star-icon" /> Star the Repo on GitHub
