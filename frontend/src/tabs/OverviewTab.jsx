@@ -18,7 +18,7 @@ function OverviewTab({ profile }) {
     try {
       setIsGenerating(true);
       const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-      const bgColor = isDark ? '#080d1a' : '#f0f4ff'; 
+      const bgColor = isDark ? '#080d1a' : '#ffffff'; 
       
       const canvas = await html2canvas(captureRef.current, {
         backgroundColor: bgColor,
@@ -90,7 +90,7 @@ function OverviewTab({ profile }) {
         <div className="modal-backdrop">
           <div className="glass-panel modal-content">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '800', color: 'var(--text-primary)' }}>Share Your GitRank</h3>
+              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '800', color: 'var(--text-primary)' }}>GitRank Report</h3>
               <button 
                 onClick={() => setShowShareModal(false)}
                 style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '18px', padding: '4px' }}

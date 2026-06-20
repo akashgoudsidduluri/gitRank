@@ -62,13 +62,27 @@ function App() {
     if (e) e.preventDefault();
     if (!username.trim()) return;
 
+    let targetUsername = username.trim();
+    
+    // Support URL pasting
+    if (targetUsername.includes('github.com/')) {
+      const parts = targetUsername.split('github.com/');
+      if (parts.length > 1) {
+        // Handle potential trailing slashes or extra paths
+        targetUsername = parts[1].split('/')[0].split('?')[0];
+      }
+    } else {
+      // Clean up trailing/leading slashes
+      targetUsername = targetUsername.replace(/^[/\s]+|[/\s]+$/g, '');
+    }
+
     setLoading(true);
     setError(null);
     setProfile(null);
 
     try {
       const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-      const response = await axios.get(`${API_URL}/api/analyze/${username.trim()}`, {
+      const response = await axios.get(`${API_URL}/api/analyze/${targetUsername}`, {
         timeout: 20000
       });
       setProfile(response.data);
@@ -200,7 +214,7 @@ function App() {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Enter GitHub Username"
+                  placeholder="GitHub Username or URL"
                   className="search-input"
                   required
                 />
