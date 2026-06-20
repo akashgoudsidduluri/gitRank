@@ -18,7 +18,7 @@ function OverviewTab({ profile }) {
     try {
       setIsGenerating(true);
       const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-      const bgColor = isDark ? '#0f172a' : '#f8fafc'; 
+      const bgColor = isDark ? '#080d1a' : '#f0f4ff'; 
       
       const canvas = await html2canvas(captureRef.current, {
         backgroundColor: bgColor,
@@ -87,24 +87,13 @@ function OverviewTab({ profile }) {
 
       {/* Custom Share Modal */}
       {showShareModal && (
-        <div style={{
-          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-          backdropFilter: 'blur(8px)',
-          zIndex: 9999,
-          display: 'flex', justifyContent: 'center', alignItems: 'center',
-          animation: 'fade-in 0.2s ease-out'
-        }}>
-          <div className="glass-panel" style={{
-            width: '90%', maxWidth: '500px',
-            padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px',
-            boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
-          }}>
+        <div className="modal-backdrop">
+          <div className="glass-panel modal-content">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '800' }}>Share Your GitRank</h3>
+              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '800', color: 'var(--text-primary)' }}>Share Your GitRank</h3>
               <button 
                 onClick={() => setShowShareModal(false)}
-                style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '18px' }}
+                style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '18px', padding: '4px' }}
               >
                 <FaTimes />
               </button>
@@ -112,7 +101,7 @@ function OverviewTab({ profile }) {
 
             <div style={{ 
               borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--glass-border)',
-              background: 'var(--card-bg)'
+              background: 'var(--card-bg)', boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
             }}>
               <img src={shareImage} alt="GitRank Card Preview" style={{ width: '100%', display: 'block' }} />
             </div>
@@ -121,7 +110,7 @@ function OverviewTab({ profile }) {
               <button 
                 onClick={handleCopy} 
                 className="search-btn" 
-                style={{ flex: 1, background: 'var(--card-bg)', border: '1px solid var(--text-muted)', color: 'var(--text-primary)', boxShadow: 'none' }}
+                style={{ flex: 1, background: 'var(--card-bg)', border: '1px solid var(--card-border)', color: 'var(--text-primary)', boxShadow: 'none' }}
               >
                 <FaCopy style={{ marginRight: '8px' }} /> Copy Image
               </button>
