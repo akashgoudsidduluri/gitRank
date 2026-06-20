@@ -1,7 +1,37 @@
 import React from "react";
-import { FaCalendarAlt, FaTrophy, FaShareAlt, FaSpinner } from "react-icons/fa";
+import { FaCalendarAlt, FaTrophy, FaShareAlt, FaSpinner, FaDownload } from "react-icons/fa";
 
 function ProfileHeader({ profile, onShare, isGenerating }) {
+  const handleNativeShare = async () => {
+    // If archetype isn't set, try to infer a tier
+    let tierText = profile.archetype || "Developer";
+    if (!profile.archetype) {
+      if (profile.devScore >= 75) tierText = "Gold";
+      else if (profile.devScore >= 45) tierText = "Silver";
+      else tierText = "Bronze";
+    }
+
+    const shareData = {
+      title: "My GitRank Profile",
+      text: `Check out my GitRank profile!\n\nGitRank Score: ${profile.devScore}\nTier: ${tierText}\n\n`,
+      url: `https://gitrank.app/profile/${profile.username}`
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(`${shareData.text}${shareData.url}`);
+        alert("Link copied to clipboard!");
+      }
+    } catch (err) {
+      // AbortError is expected if user cancels the native share
+      if (err.name !== 'AbortError') {
+        console.error("Error sharing:", err);
+      }
+    }
+  };
+
   return (
     <div style={{ position: 'relative' }}>
       <div className="glass-panel profile-header-card">
@@ -70,17 +100,26 @@ function ProfileHeader({ profile, onShare, isGenerating }) {
         </div>
       </div>
 
-      <button 
-        onClick={onShare} 
-        disabled={isGenerating}
-        className="share-btn"
-        aria-label="Share GitRank Card"
-        title="Download Social Card"
-        data-html2canvas-ignore="true" /* Hide button in the screenshot! */
-      >
-        {isGenerating ? <FaSpinner className="spinner" /> : <FaShareAlt />} 
-        <span className="share-text">{isGenerating ? 'Generating...' : 'Share Rank'}</span>
-      </button>
+      <div className="action-btn-group" data-html2canvas-ignore="true">
+        <button 
+          onClick={handleNativeShare} 
+          className="icon-action-btn"
+          aria-label="Share GitRank Profile"
+          title="Share via Native App"
+        >
+          <FaShareAlt />
+        </button>
+
+        <button 
+          onClick={onShare} 
+          disabled={isGenerating}
+          className="icon-action-btn"
+          aria-label="Download GitRank Card"
+          title="Download Social Card"
+        >
+          {isGenerating ? <FaSpinner className="spinner" /> : <FaDownload />}
+        </button>
+      </div>
     </div>
   );
 }
