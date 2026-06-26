@@ -15,14 +15,9 @@ import {
   FaSun,
   FaStar,
   FaUsers,
-  FaUserFriends,
   FaCodeBranch,
   FaChartLine,
   FaCalendarAlt,
-  FaExternalLinkAlt,
-  FaCheckCircle,
-  FaExclamationCircle,
-  FaLightbulb,
   FaArrowLeft,
   FaCloud,
   FaCloudRain
@@ -117,7 +112,7 @@ function App() {
         <div className="blob blob-3"></div>
       </div>
 
-      <div className="app-wrapper">
+      <main className="app-wrapper">
         {/* Navigation Header */}
         <header className="app-header">
           <div className="logo-section" style={{ cursor: 'pointer' }} onClick={resetSearch}>
@@ -202,19 +197,20 @@ function App() {
 
         {/* Home / Search Screen */}
         {!loading && !profile && (
-          <div className="glass-panel hero-section">
-            <FaGithub size={100} className="hero-icon" />
+          <section className="glass-panel hero-section">
+            <FaGithub size={100} className="hero-icon" aria-hidden="true" />
             <h1>GitRank</h1>
             <p>Get your GitRank Score, repository insights, contribution analytics, streak tracking, and developer ranking in seconds.</p>
 
             <form onSubmit={analyzeProfile} className="search-container">
               <div className="search-bar-wrapper">
-                <FaSearch className="search-icon-inline" />
+                <FaSearch className="search-icon-inline" aria-hidden="true" />
                 <input
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="GitHub Username or URL"
+                  aria-label="Enter GitHub Username or URL"
                   className="search-input"
                   required
                 />
@@ -236,20 +232,20 @@ function App() {
                 </div>
               </div>
               <div className="example-stats">
-                <div className="example-stat-item"><FaStar className="stat-icon" /> <span>214k Stars</span></div>
-                <div className="example-stat-item"><FaCodeBranch className="stat-icon" /> <span>6 Repositories</span></div>
-                <div className="example-stat-item"><FaChartLine className="stat-icon" /> <span>365 Days Streak</span></div>
-                <div className="example-stat-item"><FaUsers className="stat-icon" /> <span>232k Followers</span></div>
+                <div className="example-stat-item"><FaStar className="stat-icon" aria-hidden="true" /> <span>214k Stars</span></div>
+                <div className="example-stat-item"><FaCodeBranch className="stat-icon" aria-hidden="true" /> <span>6 Repositories</span></div>
+                <div className="example-stat-item"><FaChartLine className="stat-icon" aria-hidden="true" /> <span>365 Days Streak</span></div>
+                <div className="example-stat-item"><FaUsers className="stat-icon" aria-hidden="true" /> <span>232k Followers</span></div>
               </div>
             </div>
 
             <ErrorBanner error={error} />
-          </div>
+          </section>
         )}
 
         {/* Feature Preview Section Below the Fold */}
         {!loading && !profile && (
-          <div className="feature-preview-section">
+          <section className="feature-preview-section">
             <div className="credibility-strip">
               <span>Calculates 10+ GitHub Metrics</span> <span className="credibility-dot">•</span>
               <span>Uses GitHub REST & GraphQL APIs</span> <span className="credibility-dot">•</span>
@@ -257,25 +253,52 @@ function App() {
             </div>
             <h2>What You'll Get</h2>
             <div className="feature-grid">
-              <div className="feature-card">
-                <div className="feature-icon-wrapper"><FaChartLine /></div>
+              <article className="feature-card">
+                <div className="feature-icon-wrapper"><FaChartLine aria-hidden="true" /></div>
                 <h3>GitRank Score</h3>
                 <p>Custom score based on repositories, stars, activity, and influence.</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon-wrapper"><FaCalendarAlt /></div>
+              </article>
+              <article className="feature-card">
+                <div className="feature-icon-wrapper"><FaCalendarAlt aria-hidden="true" /></div>
                 <h3>Contribution Analytics</h3>
                 <p>Track streaks, consistency, and activity trends.</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon-wrapper"><FaStar /></div>
+              </article>
+              <article className="feature-card">
+                <div className="feature-icon-wrapper"><FaStar aria-hidden="true" /></div>
                 <h3>Repository Insights</h3>
                 <p>Analyze your most impactful projects and languages.</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon-wrapper"><FaUsers /></div>
+              </article>
+              <article className="feature-card">
+                <div className="feature-icon-wrapper"><FaUsers aria-hidden="true" /></div>
                 <h3>Developer Ranking</h3>
                 <p>Compare your profile against other developers.</p>
+              </article>
+            </div>
+
+            {/* SEO Content Sections */}
+            <div className="seo-content" style={{ marginTop: '60px', textAlign: 'left', maxWidth: '800px', margin: '60px auto 0', color: 'var(--text-secondary)' }}>
+              <div style={{ marginBottom: '32px' }}>
+                <h3 style={{ fontSize: '1.5rem', marginBottom: '12px', color: 'var(--text-primary)' }}>What is GitRank?</h3>
+                <p style={{ lineHeight: '1.6' }}>GitRank is an advanced GitHub profile analyzer that transforms your standard GitHub data into actionable insights, visual heatmaps, and an overarching Developer Score to help you understand your open-source impact.</p>
+              </div>
+              
+              <div style={{ marginBottom: '32px' }}>
+                <h3 style={{ fontSize: '1.5rem', marginBottom: '12px', color: 'var(--text-primary)' }}>How GitRank Works</h3>
+                <p style={{ lineHeight: '1.6' }}>By leveraging the GitHub REST and GraphQL APIs, GitRank fetches real-time data on your commits, pull requests, issues, and repositories. We then analyze this data to generate beautiful charts, streak trackers, and a unique GitRank Score that reflects your activity and community influence.</p>
+              </div>
+
+              <div style={{ marginBottom: '32px' }}>
+                <h3 style={{ fontSize: '1.5rem', marginBottom: '12px', color: 'var(--text-primary)' }}>Why Use GitRank?</h3>
+                <p style={{ lineHeight: '1.6' }}>Whether you're building your portfolio, comparing stats with peers, or just trying to maintain your coding streak, GitRank offers the most visually appealing and comprehensive breakdown of your GitHub profile.</p>
+              </div>
+
+              <div style={{ marginBottom: '32px' }}>
+                <h3 style={{ fontSize: '1.5rem', marginBottom: '12px', color: 'var(--text-primary)' }}>Frequently Asked Questions</h3>
+                <ul style={{ listStyleType: 'disc', paddingLeft: '20px', lineHeight: '1.6' }}>
+                  <li><strong>Is GitRank free?</strong> Yes, GitRank is entirely free to use.</li>
+                  <li><strong>Do I need to sign in?</strong> No authentication is required. Just enter a public GitHub username.</li>
+                  <li><strong>How is the GitRank Score calculated?</strong> It's a proprietary blend of your total stars, forks, repository count, followers, and contribution consistency.</li>
+                </ul>
               </div>
             </div>
 
@@ -286,12 +309,12 @@ function App() {
                 rel="noopener noreferrer"
                 className="github-repo-link"
               >
-                <FaStar className="star-icon" /> Star the Repo on GitHub
+                <FaStar className="star-icon" aria-hidden="true" /> Star the Repo on GitHub
               </a>
             </div>
-          </div>
+          </section>
         )}
-      </div>
+      </main>
     </>
   );
 }

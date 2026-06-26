@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://git-rank-kappa.vercel.app/sitemap.xml
