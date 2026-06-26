@@ -1,26 +1,26 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Dark glass background with slight gradient -->
-  <rect width="512" height="512" rx="112" fill="url(#bg-grad)" />
-  <rect width="512" height="512" rx="112" stroke="rgba(255,255,255,0.1)" stroke-width="8" />
-
-  <!-- Abstract Chart / Contribution Graph Blocks -->
-  <!-- Left column -->
-  <rect x="140" y="260" width="60" height="120" rx="16" fill="#3b82f6" />
+  <!-- Minimal Dark Background -->
+  <rect width="512" height="512" rx="128" fill="#030712" />
+  <rect width="512" height="512" rx="128" fill="url(#bg-gradient)" opacity="0.4" />
   
-  <!-- Middle column (highest) -->
-  <rect x="226" y="132" width="60" height="248" rx="16" fill="#60a5fa" />
-  
-  <!-- Right column -->
-  <rect x="312" y="200" width="60" height="180" rx="16" fill="#22d3ee" />
+  <!-- Subtle border for premium feel -->
+  <rect x="8" y="8" width="496" height="496" rx="120" stroke="rgba(255,255,255,0.1)" stroke-width="4" />
 
-  <!-- Upward Trend Line / Arrow overlaid -->
-  <path d="M 120 320 L 226 214 L 280 268 L 380 168" stroke="#ffffff" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-  <path d="M 310 168 L 380 168 L 380 238" stroke="#ffffff" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  <!-- Code / Git Branch Iconography -->
+  <!-- Main Vertical Trunk -->
+  <path d="M 180 380 L 180 132" stroke="#60a5fa" stroke-width="48" stroke-linecap="round" />
+  <circle cx="180" cy="132" r="32" fill="#030712" stroke="#60a5fa" stroke-width="16" />
+  <circle cx="180" cy="380" r="32" fill="#030712" stroke="#60a5fa" stroke-width="16" />
 
+  <!-- Branching Path -->
+  <path d="M 180 280 C 310 280 310 180 310 180" stroke="#22d3ee" stroke-width="48" stroke-linecap="round" fill="none" />
+  <circle cx="310" cy="180" r="32" fill="#030712" stroke="#22d3ee" stroke-width="16" />
+
+  <!-- Gradient Defs -->
   <defs>
-    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0f172a" />
-      <stop offset="100%" stop-color="#1e293b" />
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#06b6d4" />
     </linearGradient>
   </defs>
 </svg>
