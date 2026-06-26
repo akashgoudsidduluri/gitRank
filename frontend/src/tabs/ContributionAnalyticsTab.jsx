@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import {
-  FaStar, 
   FaCodeBranch, 
   FaTrophy, 
   FaCheckCircle, 
@@ -105,6 +104,7 @@ const Heatmap = ({ data }) => {
 
 // Main Export Component for Tab
 function ContributionAnalyticsTab({ profile }) {
+  // eslint-disable-next-line no-unused-vars
   const [selectedAchievement, setSelectedAchievement] = useState(null);
   const [showScoreBreakdown, setShowScoreBreakdown] = useState(false);
   const [legendColor, setLegendColor] = useState("#94a3b8");
@@ -176,6 +176,7 @@ function ContributionAnalyticsTab({ profile }) {
     devScoreBreakdown,
     devScore,
     profileCompletion,
+    // eslint-disable-next-line no-unused-vars
     osRank,
     archetype,
     achievements,

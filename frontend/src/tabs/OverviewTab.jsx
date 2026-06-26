@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import ProfileHeader from "../components/ProfileHeader";
 import StatsGrid from "../components/StatsGrid";
@@ -54,7 +54,8 @@ function OverviewTab({ profile }) {
         new window.ClipboardItem({ "image/png": shareBlob })
       ]);
       alert("Image copied to clipboard! Paste it anywhere.");
-    } catch (err) {
+    // eslint-disable-next-line no-unused-vars
+    } catch (_err) {
       alert("Your browser does not support copying images directly.");
     }
   };

@@ -7,19 +7,19 @@
   --bg-gradient-start: #f0f4ff;
   --bg-gradient-end: #d9e2ec;
   
-  --glass-bg: rgba(255, 255, 255, 0.45);
-  --glass-border: rgba(255, 255, 255, 0.6);
-  --glass-inner-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --glass-inner-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8);
   
-  --card-bg: rgba(255, 255, 255, 0.25);
-  --card-border: rgba(255, 255, 255, 0.4);
+  --card-bg: rgba(255, 255, 255, 0.6);
+  --card-border: rgba(255, 255, 255, 0.8);
   
   --text-primary: #0f172a;
   --text-secondary: #475569;
   --text-muted: #64748b;
   
-  --shadow-main: 0 8px 32px 0 rgba(31, 38, 135, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-hover: 0 12px 40px 0 rgba(31, 38, 135, 0.12), 0 8px 12px -2px rgba(0, 0, 0, 0.08);
+  --shadow-main: 0 1px 3px rgba(0, 0, 0, 0.05), 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 4px 6px rgba(0, 0, 0, 0.05), 0 20px 40px -10px rgba(0, 0, 0, 0.15);
   
   --accent-primary: #3b82f6; /* Modern Blue */
   --accent-primary-glow: rgba(59, 130, 246, 0.3);
@@ -49,19 +49,19 @@
   --bg-gradient-start: #080d1a;
   --bg-gradient-end: #030712;
   
-  --glass-bg: rgba(15, 23, 42, 0.45);
-  --glass-border: rgba(255, 255, 255, 0.07);
-  --glass-inner-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --glass-bg: rgba(15, 23, 42, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-inner-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
   
-  --card-bg: rgba(255, 255, 255, 0.03);
-  --card-border: rgba(255, 255, 255, 0.04);
+  --card-bg: rgba(30, 41, 59, 0.5);
+  --card-border: rgba(255, 255, 255, 0.08);
   
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
   
-  --shadow-main: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-  --shadow-hover: 0 16px 48px 0 rgba(0, 0, 0, 0.7), 0 8px 16px -2px rgba(0, 0, 0, 0.5);
+  --shadow-main: 0 1px 3px rgba(0, 0, 0, 0.5), 0 10px 30px -5px rgba(0, 0, 0, 0.8);
+  --shadow-hover: 0 4px 6px rgba(0, 0, 0, 0.5), 0 20px 40px -10px rgba(0, 0, 0, 0.9);
   
   --accent-primary: #60a5fa;
   --accent-primary-glow: rgba(96, 165, 250, 0.4);
@@ -200,8 +200,8 @@ body {
 /* Glass Panels */
 .glass-panel {
   background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-main);
   border-radius: 24px;
@@ -233,8 +233,8 @@ body {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-main);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
 }
 
 .logo-section {
@@ -331,7 +331,7 @@ body {
 
 .search-input {
   width: 100%;
-  padding: 16px 20px 16px 48px;
+  padding: 18px 24px 18px 52px;
   border-radius: 16px;
   background: var(--card-bg);
   border: 1px solid var(--card-border);
@@ -339,7 +339,7 @@ body {
   font-size: 16px;
   font-weight: 500;
   outline: none;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
   transition: all 0.25s ease;
 }
 
@@ -350,7 +350,7 @@ body {
 .search-input:focus {
   border-color: var(--accent-primary);
   background: var(--glass-bg);
-  box-shadow: 0 0 0 4px var(--accent-primary-glow);
+  box-shadow: 0 0 0 4px var(--accent-primary-glow), inset 0 2px 4px rgba(0,0,0,0.02);
 }
 
 .search-icon-inline {
@@ -2157,4 +2157,91 @@ h1, h2, h3, h4, h5, h6 {
   max-height: 90vh;
   overflow-y: auto;
   width: 100%;
+}
+
+/* =========================================================
+   Mobile Bottom Navigation & Tab Polishing
+   ========================================================= */
+
+.dashboard-tabs {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.dashboard-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-btn {
+  white-space: nowrap;
+  padding: 12px 20px;
+  border-radius: 99px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text-secondary);
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.tab-btn:not(.disabled-tab):hover {
+  background: var(--glass-bg);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.tab-btn.active-tab {
+  background: var(--accent-primary);
+  color: #fff;
+  border-color: var(--accent-primary);
+  box-shadow: 0 4px 16px var(--accent-primary-glow);
+}
+
+/* Strict mobile breakpoints for Bottom Nav */
+@media screen and (max-width: 768px) {
+  .dashboard-tabs {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 40px);
+    max-width: 400px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid var(--glass-border);
+    border-radius: 99px;
+    padding: 8px;
+    z-index: 100;
+    box-shadow: var(--shadow-hover);
+    justify-content: space-between;
+  }
+  
+  .tab-btn {
+    flex: 1;
+    padding: 10px 8px;
+    font-size: 12px;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    border-radius: 99px;
+  }
+  
+  .tab-btn.disabled-tab {
+    display: none;
+  }
+  
+  .tab-btn.active-tab {
+    transform: none;
+    box-shadow: 0 4px 12px var(--accent-primary-glow);
+  }
+  
+  /* Add padding to app wrapper to account for bottom nav */
+  .app-wrapper {
+    padding-bottom: 80px;
+  }
 }
