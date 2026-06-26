@@ -27,8 +27,15 @@ function App() {
   const [username, setUsername] = useState("");
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState("");
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("overview");
+
+  // Wake up backend early on mount
+  useEffect(() => {
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    axios.get(`${API_URL}/health`).catch(() => {});
+  }, []);
 
   // Weather state initialization
   const [weatherEnabled, setWeatherEnabled] = useState(() => {
@@ -53,7 +60,7 @@ function App() {
     localStorage.setItem('gitrank-theme', theme);
   }, [theme]);
 
-  const analyzeProfile = async (e) => {
+  const analyzeProfile = async (e, isRetry = false) => {
     if (e) e.preventDefault();
     if (!username.trim()) return;
 
@@ -63,33 +70,45 @@ function App() {
     if (targetUsername.includes('github.com/')) {
       const parts = targetUsername.split('github.com/');
       if (parts.length > 1) {
-        // Handle potential trailing slashes or extra paths
         targetUsername = parts[1].split('/')[0].split('?')[0];
       }
     } else {
-      // Clean up trailing/leading slashes
       targetUsername = targetUsername.replace(/^[/\s]+|[/\s]+$/g, '');
     }
 
     setLoading(true);
-    setError(null);
-    setProfile(null);
+    if (!isRetry) {
+      setLoadingMessage("Analyzing GitHub Profile...");
+      setError(null);
+      setProfile(null);
+    }
 
     try {
       const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
       const response = await axios.get(`${API_URL}/api/analyze/${targetUsername}`, {
-        timeout: 20000
+        timeout: 25000
       });
       setProfile(response.data);
+      setLoading(false);
+      setLoadingMessage("");
     } catch (err) {
       console.error(err);
-      if (err.response && err.response.data && err.response.data.message) {
+      if (err.code === 'ECONNABORTED' || err.message.includes('timeout') || (err.response && err.response.status === 503)) {
+        if (!isRetry) {
+          // If first failure due to timeout, backend is likely waking up. Automatically retry once.
+          setLoadingMessage("Backend is waking up. Please wait...");
+          setTimeout(() => analyzeProfile(null, true), 3000);
+          return;
+        } else {
+          setError("The server is still waking up or is currently unavailable. Please try again in a moment.");
+        }
+      } else if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
       } else {
-        setError("GitHub User Not Found or network error. Please try again.");
+        setError("GitHub Profile Not Found or network error. Please verify the username and try again.");
       }
-    } finally {
       setLoading(false);
+      setLoadingMessage("");
     }
   };
 
@@ -140,7 +159,7 @@ function App() {
         </header>
 
         {/* Loading State */}
-        {loading && <LoadingSkeleton />}
+        {loading && <LoadingSkeleton message={loadingMessage} />}
 
         {/* Dashboard Profile Report */}
         {!loading && profile && (

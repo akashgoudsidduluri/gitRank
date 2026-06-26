@@ -3,9 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function() {
+        try {
+          var savedTheme = localStorage.getItem('gitrank-theme');
+          var theme = savedTheme ? savedTheme : 'dark';
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
     <title>GitRank – GitHub Profile Analyzer, Repository Insights & Developer Score</title>
     <meta name="description" content="Analyze GitHub profiles with repository insights, contribution heatmaps, language statistics, developer rankings, and a custom GitRank Score." />
     <meta name="keywords" content="GitHub, GitRank, Developer Score, Profile Analyzer, Repository Insights, Contribution Heatmap, Developer Ranking" />

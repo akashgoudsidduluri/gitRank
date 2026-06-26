@@ -2021,3 +2021,140 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
   animation: modal-content-scale 0.2s ease-out forwards;
 }
+/* =========================================================
+   Mobile Responsiveness & Breakpoints (Added for Polish)
+   ========================================================= */
+
+/* Ensure touch targets are at least 44px */
+.icon-action-btn, .theme-toggle-btn {
+  min-width: 44px;
+  min-height: 44px;
+}
+.search-btn, .search-input {
+  min-height: 52px;
+}
+
+/* Base tablet/mobile breakpoint */
+@media screen and (max-width: 768px) {
+  body {
+    padding: 20px 10px;
+  }
+  
+  .app-wrapper {
+    gap: 16px;
+  }
+
+  .hero-section h1 {
+    font-size: 28px;
+  }
+
+  .hero-section p {
+    font-size: 14px;
+    padding: 0 10px;
+  }
+  
+  .search-container {
+    padding: 0 10px;
+    width: 100%;
+  }
+
+  .search-input {
+    padding: 14px 16px 14px 40px;
+  }
+
+  .stats-grid, .insights-container, .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .example-report-card {
+    flex-direction: column;
+    padding: 16px;
+  }
+  
+  .example-stats {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-header-card {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .user-info-group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .user-meta-details {
+    align-items: center;
+  }
+  
+  .score-badge-container {
+    justify-content: center;
+  }
+
+  /* Fix horizontal overflows in tables or charts */
+  .chart-container, .table-container {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Make sure canvas elements inside charts resize properly */
+  canvas {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
+/* Strict mobile breakpoints */
+@media screen and (max-width: 414px) {
+  .hero-section {
+    padding: 32px 16px;
+  }
+  
+  .app-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .user-username {
+    font-size: 20px;
+  }
+  .stat-card {
+    padding: 16px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  body {
+    padding: 10px 5px;
+  }
+  
+  .hero-section h1 {
+    font-size: 24px;
+  }
+  
+  .search-btn {
+    font-size: 14px;
+    padding: 12px 16px;
+  }
+}
+
+/* Prevent modal overflows */
+.modal-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal-content {
+  max-height: 90vh;
+  overflow-y: auto;
+  width: 100%;
+}

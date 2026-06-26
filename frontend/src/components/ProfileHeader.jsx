@@ -1,4 +1,3 @@
-import React from "react";
 import { FaCalendarAlt, FaTrophy, FaShareAlt, FaSpinner, FaDownload } from "react-icons/fa";
 
 function ProfileHeader({ profile, onShare, isGenerating }) {

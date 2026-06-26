@@ -1,10 +1,9 @@
-import { useState,useEffect } from "react";
+/* eslint-disable react-hooks/purity */
+import { useMemo } from "react";
 const WeatherEffect = ({ theme }) => {
-  const [elements, setElements] = useState([]);
-
-  useEffect(() => {
+  const elements = useMemo(() => {
     const count = theme === 'dark' ? 30 : 65;
-    const newElements = Array.from({ length: count }).map((_, index) => {
+    return Array.from({ length: count }).map((_, index) => {
       const left = Math.random() * 100;
       const delay = Math.random() * -15;
       const duration = theme === 'dark' 
@@ -28,7 +27,6 @@ const WeatherEffect = ({ theme }) => {
         opacity
       };
     });
-    setElements(newElements);
   }, [theme]);
 
   if (theme === 'dark') {

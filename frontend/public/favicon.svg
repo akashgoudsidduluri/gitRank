@@ -1,17 +1,26 @@
-<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark glass background with slight gradient -->
+  <rect width="512" height="512" rx="112" fill="url(#bg-grad)" />
+  <rect width="512" height="512" rx="112" stroke="rgba(255,255,255,0.1)" stroke-width="8" />
+
+  <!-- Abstract Chart / Contribution Graph Blocks -->
+  <!-- Left column -->
+  <rect x="140" y="260" width="60" height="120" rx="16" fill="#3b82f6" />
+  
+  <!-- Middle column (highest) -->
+  <rect x="226" y="132" width="60" height="248" rx="16" fill="#60a5fa" />
+  
+  <!-- Right column -->
+  <rect x="312" y="200" width="60" height="180" rx="16" fill="#22d3ee" />
+
+  <!-- Upward Trend Line / Arrow overlaid -->
+  <path d="M 120 320 L 226 214 L 280 268 L 380 168" stroke="#ffffff" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  <path d="M 310 168 L 380 168 L 380 238" stroke="#ffffff" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+
   <defs>
-    <linearGradient id="bg-grad" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#06b6d4" />
-      <stop offset="100%" stop-color="#3b82f6" />
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
     </linearGradient>
   </defs>
-  
-  <!-- Solid Gradient Squircle taking up the full space -->
-  <rect width="256" height="256" rx="56" fill="url(#bg-grad)" />
-  
-  <!-- Extremely bold white trending arrow representing Analytics & Ranking -->
-  <path d="M 48 184 L 104 128 L 144 168 L 208 88" stroke="#ffffff" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none" />
-  
-  <!-- Arrow Head -->
-  <path d="M 152 88 L 208 88 L 208 144" stroke="#ffffff" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none" />
 </svg>
