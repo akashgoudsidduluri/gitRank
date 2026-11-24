@@ -1,0 +1,26 @@
+# Render Blueprint — cron job ONLY.
+# The web service (gitrank-api) and the Vercel frontend already exist and
+# were deployed manually, so this file does NOT redefine them. Connecting
+# this Blueprint adds only the weekly snapshot job below. Nothing runs
+# until the Blueprint is connected in the Render dashboard and this file
+# is on main.
+#
+# NOTE: Render Cron Jobs carry a minimum ~$1/month charge — they are not
+# free-tier. A free alternative is a scheduled GitHub Actions workflow
+# hitting the same POST endpoint.
+services:
+  - type: cron
+    name: gitrank-weekly-snapshot
+    runtime: node
+    # Mondays 03:30 UTC = 09:00 IST. One run per week.
+    schedule: "30 3 * * 1"
+    buildCommand: "true"
+    startCommand: >-
+      for user in $SNAPSHOT_USERNAMES; do
+      curl -fsS -X POST "$API_URL/api/snapshot/$user" || echo "snapshot failed for $user";
+      done
+    envVars:
+      - key: API_URL
+        value: https://gitrank-api.onrender.com
+      - key: SNAPSHOT_USERNAMES
+        value: akashgoudsidduluri

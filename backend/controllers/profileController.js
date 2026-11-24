@@ -8,6 +8,12 @@ const {
 } = require("../services/githubService.js");
 const {getContributionAnalytics} = require("../services/githubGraphqlService");
 const {calculateDevScore} =require("../services/scoringService.js");
+const {
+    getWeekKey,
+    recordSnapshot,
+    getHistory,
+    getLatestSnapshot
+} = require("../services/snapshotStore.js");
 const {analyzeDeveloper} =require("../services/AnalysisService");
 const {generateRepoInsights} =require("../services/repoInsightsService.js");
 const {
@@ -16,10 +22,13 @@ const {
 const { generateAchievements } = require("../services/achievementService");
 const { generateBadges } = require("../services/badgeService");
 
-async function analyzeProfile(req,res) {
-    try{
-        const username=req.params.username;
-        const [
+// Fetches a profile from GitHub and computes its score.
+// Shared by GET /api/analyze/:username and POST /api/snapshot/:username,
+// so the score is always computed the same way in both places.
+// Returns everything analyzeProfile needs, plus the raw profile/repos.
+// Errors propagate to the caller, which owns the HTTP response.
+async function fetchScoreData(username) {
+    const [
             profile,
             repos,
             events,
@@ -64,19 +73,6 @@ async function analyzeProfile(req,res) {
             totalStars+=repo.stargazers_count;
         });
         let averageStarsPerRepo=(repos.length>0 ?totalStars/repos.length:0).toFixed(2);        
-        //Profile Analysis
-
-        const analysis = analyzeDeveloper({
-            followers: profile.followers,
-            publicRepos: profile.public_repos,
-            totalStars,
-            accountAgeYears
-        });
-
-        //Get Repo Insigts
-        const repoInsights = generateRepoInsights(repos);
-        const repositoryExplorer = generateRepositoryExplorer(repos);
-        
         const contributionSummary = {
             totalContributions:
                 contributionAnalytics?.contributionCalendar?.totalContributions || 0,
@@ -101,6 +97,65 @@ async function analyzeProfile(req,res) {
             totalContributions:
                 contributionSummary.totalContributions
         });
+
+    return {
+        profile,
+        repos,
+        accountAgeYears,
+        totalStars,
+        averageStarsPerRepo,
+        topRepo,
+        topRepoUrl,
+        topRepoStars: maxStars,
+        devScore,
+        devTier,
+        devScoreBreakdown,
+        contributionSummary
+    };
+}
+
+async function analyzeProfile(req,res) {
+    try{
+        const username=req.params.username;
+        const {
+            profile,
+            repos,
+            accountAgeYears,
+            totalStars,
+            averageStarsPerRepo,
+            topRepo,
+            topRepoUrl,
+            topRepoStars,
+            devScore,
+            devTier,
+            devScoreBreakdown,
+            contributionSummary
+        } = await fetchScoreData(username);
+
+        // Record this week's snapshot. Fire-and-forget: a snapshot
+        // failure must never break a profile analysis.
+        recordSnapshot(username, {
+            score: devScore,
+            tier: devTier,
+            breakdown: devScoreBreakdown,
+            totalStars,
+            followers: profile.followers,
+            publicRepos: profile.public_repos,
+            totalContributions: contributionSummary.totalContributions
+        }).catch((err) => console.error("Snapshot failed", err));
+
+        //Profile Analysis
+
+        const analysis = analyzeDeveloper({
+            followers: profile.followers,
+            publicRepos: profile.public_repos,
+            totalStars,
+            accountAgeYears
+        });
+
+        //Get Repo Insigts
+        const repoInsights = generateRepoInsights(repos);
+        const repositoryExplorer = generateRepositoryExplorer(repos);
 
         const badges = generateBadges({
             score: devScore,
@@ -158,7 +213,7 @@ async function analyzeProfile(req,res) {
             averageStarsPerRepo,
             topRepo,
             topRepoUrl,
-            topRepoStars: maxStars,
+            topRepoStars,
             devScore,
             devTier,
             devScoreBreakdown,
@@ -203,7 +258,54 @@ async function getContributors(req, res) {
     }
 }
 
+// POST /api/snapshot/:username — make sure this week's snapshot exists.
+// Returns the snapshot already recorded this week when there is one,
+// so repeated calls (e.g. the weekly cron) do not re-hit the GitHub API.
+async function recordSnapshotForUser(req, res) {
+    try {
+        const username = req.params.username;
+        const latest = await getLatestSnapshot(username);
+        if (latest && latest.week === getWeekKey()) {
+            return res.json({ ...latest, username, cached: true });
+        }
+        const data = await fetchScoreData(username);
+        const snapshot = await recordSnapshot(username, {
+            score: data.devScore,
+            tier: data.devTier,
+            breakdown: data.devScoreBreakdown,
+            totalStars: data.totalStars,
+            followers: data.followers,
+            publicRepos: data.publicRepos,
+            totalContributions: data.contributionSummary.totalContributions
+        });
+        res.json({ ...snapshot, username, cached: false });
+    } catch (error) {
+        console.error("SNAPSHOT ERROR:", error);
+        res.status(500).json({
+            status: false,
+            message: "Failed to record snapshot"
+        });
+    }
+}
+
+// GET /api/history/:username — weekly score time series, oldest first.
+async function getHistoryForUser(req, res) {
+    try {
+        const username = req.params.username;
+        const snapshots = await getHistory(username);
+        res.json({ username, count: snapshots.length, snapshots });
+    } catch (error) {
+        console.error("HISTORY ERROR:", error);
+        res.status(500).json({
+            status: false,
+            message: "Failed to load history"
+        });
+    }
+}
+
 module.exports = {
     analyzeProfile,
-    getContributors
+    getContributors,
+    recordSnapshotForUser,
+    getHistoryForUser
 };

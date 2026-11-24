@@ -4,6 +4,7 @@ import ProfileHeader from "../components/ProfileHeader";
 import StatsGrid from "../components/StatsGrid";
 import SpotlightRepo from "../components/SpotlightRepo";
 import SmartAnalysis from "../components/SmartAnalysis";
+import ScoreTrend from "../components/ScoreTrend";
 import { FaDownload, FaCopy, FaTimes } from "react-icons/fa";
 
 function OverviewTab({ profile }) {
@@ -85,6 +86,8 @@ function OverviewTab({ profile }) {
       <SpotlightRepo profile={profile} />
 
       <SmartAnalysis profile={profile} />
+
+      <ScoreTrend username={profile.username} />
 
       {/* Custom Share Modal */}
       {showShareModal && (
